@@ -12,5 +12,6 @@
     <orderEntry type="library" name="openjfx.javafx.media" level="project" />
     <orderEntry type="library" name="openjfx.javafx.swing" level="project" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
