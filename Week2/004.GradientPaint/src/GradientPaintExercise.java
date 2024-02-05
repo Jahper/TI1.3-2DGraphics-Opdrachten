@@ -12,8 +12,12 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
+import javax.swing.text.Position;
+
 public class GradientPaintExercise extends Application {
     private ResizableCanvas canvas;
+    private Point2D position;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -30,10 +34,54 @@ public class GradientPaintExercise extends Application {
 
     public void draw(FXGraphics2D graphics)
     {
-        graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        graphics.clearRect(0,0,1920,1080);
+
+//        graphics.setTransform(new AffineTransform());
+//        graphics.setBackground(Color.white);
+//        graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+//        Color[] colors = {Color.yellow, Color.blue, Color.red};
+//        float[] fractions = { 0.0f, 0.1f, 0.2f};
+        float[] fractions = {0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
+        Color[] colors = new Color[fractions.length];
+        for (int i = 0; i < colors.length; i++)
+            colors[i] = Color.getHSBColor(fractions[i], 1.0f, 1.0f);
+
+        canvas.setOnMouseDragged(event ->
+        {
+            position = new Point2D.Double(event.getX(), event.getY());
+//            graphics.setPaint(new RadialGradientPaint(position.getX(), position.getY(), Math.min(1920, 1080), (float)position.getX(), (float)position.getY(), fractions, colors, MultipleGradientPaint.CycleMethod.REPEAT));
+//            graphics.setPaint(new );
+//                    position.getX(), position.getY(),
+//                    Math.min(1920, 1080),
+//                    (float)position.getX(), (float)position.getY(),
+//                    fractions, colors,MultipleGradientPaint.CycleMethod.REPEAT)));
+        });
+//        Shape rectangle = new Rectangle2D.Double(0,0,1920,1080);
+        graphics.fill(new Rectangle2D.Double(0,0,1920, 1080));
+
     }
+//public void draw(FXGraphics2D g2d)
+//{
+//    g2d.setBackground(Color.white);
+//    g2d.clearRect(0,0,1920,1080);
+//
+//    canvas.setOnMouseDragged(event -> position = new Point2D.Double(event.getX(), event.getY()));
+//
+//    float[] fractions = { 0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
+//    Color[] colors = new Color[fractions.length];
+//    for(int i = 0; i < colors.length; i++)
+//        colors[i] = Color.getHSBColor(fractions[i], 1.0f, 1.0f);
+//
+//    g2d.setPaint(new RadialGradientPaint(
+//            1920/2, 1080/2,	//center
+//            Math.min(1920, 1080), //radius
+////            (float)position.getX(), (float)position.getY(), //focal point
+//            fractions, colors, MultipleGradientPaint.CycleMethod.REPEAT));
+//
+//    g2d.fill(new Rectangle2D.Double(0,0,1920, 1080));
+//
+//}
 
 
     public static void main(String[] args)
