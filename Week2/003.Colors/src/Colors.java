@@ -16,8 +16,7 @@ public class Colors extends Application {
     private ResizableCanvas canvas;
 
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
+    public void start(Stage primaryStage) throws Exception {
         BorderPane mainPane = new BorderPane();
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
@@ -28,16 +27,38 @@ public class Colors extends Application {
     }
 
 
-    public void draw(FXGraphics2D graphics)
-    {
+    public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+
+        Color[] colors = {Color.BLACK, Color.BLUE, Color.CYAN, Color.darkGray, Color.gray, Color.green, Color.lightGray, Color.magenta,
+                Color.orange, Color.pink, Color.red, Color.white, Color.yellow};
+
+        int baseX = 50;
+        int baseY = 50;
+
+//        GeneralPath path = new GeneralPath();
+
+
+        for (int i = 0; i < 13; i++) {
+//            path.moveTo(baseX, baseY);
+//            path.lineTo(70, 50);
+//            path.lineTo(70, 70);
+//            path.lineTo(50, 70);
+//            path.closePath();
+            graphics.setColor(colors[i]);
+//            graphics.fill(path);
+
+            Shape s = new Rectangle2D.Double(baseX, baseY, 20,20);
+            graphics.fill(s);
+            baseX += 20;
+        }
+//        graphics.draw(path);
     }
 
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(Colors.class);
     }
 
