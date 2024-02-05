@@ -16,7 +16,7 @@ import javax.swing.text.Position;
 
 public class GradientPaintExercise extends Application {
     private ResizableCanvas canvas;
-    private Point2D position;
+    private Point2D position = new Point2D.Double(100,100);
 
 
     @Override
@@ -25,6 +25,13 @@ public class GradientPaintExercise extends Application {
         BorderPane mainPane = new BorderPane();
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
+
+        canvas.setOnMouseDragged(event ->
+        {
+            position = new Point2D.Double(event.getX(), event.getY());
+            draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        });
+
         primaryStage.setScene(new Scene(mainPane));
         primaryStage.setTitle("GradientPaint");
         primaryStage.show();
@@ -46,17 +53,13 @@ public class GradientPaintExercise extends Application {
         Color[] colors = new Color[fractions.length];
         for (int i = 0; i < colors.length; i++)
             colors[i] = Color.getHSBColor(fractions[i], 1.0f, 1.0f);
+//        position = new Point2D.Double(event.getX(), event.getY());
+        graphics.setPaint(new RadialGradientPaint(position, Math.min(1920, 1080), fractions, colors));
 
-        canvas.setOnMouseDragged(event ->
-        {
-            position = new Point2D.Double(event.getX(), event.getY());
-//            graphics.setPaint(new RadialGradientPaint(position.getX(), position.getY(), Math.min(1920, 1080), (float)position.getX(), (float)position.getY(), fractions, colors, MultipleGradientPaint.CycleMethod.REPEAT));
-//            graphics.setPaint(new );
-//                    position.getX(), position.getY(),
-//                    Math.min(1920, 1080),
-//                    (float)position.getX(), (float)position.getY(),
-//                    fractions, colors,MultipleGradientPaint.CycleMethod.REPEAT)));
-        });
+//        canvas.setOnMouseDragged(event ->
+//        {
+//
+//        });
 //        Shape rectangle = new Rectangle2D.Double(0,0,1920,1080);
         graphics.fill(new Rectangle2D.Double(0,0,1920, 1080));
 
