@@ -41,10 +41,6 @@ public class Moon extends Application {
         path.curveTo(200,400,200,100,70,100);
         graphics.fill(path);
         graphics.draw(path);
-
-//        graphics.draw(new CubicCurve2D.Double(100,100,250,100,250,400,100,400));
-
-
     }
 
 

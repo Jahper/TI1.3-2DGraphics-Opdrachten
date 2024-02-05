@@ -34,7 +34,6 @@ public class YingYang extends Application {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
-        GeneralPath path = new GeneralPath();
         Area mainCircle = new Area(new Ellipse2D.Double(200,150,200,200));
         graphics.fill(mainCircle);
         graphics.setColor(Color.WHITE);
@@ -42,10 +41,6 @@ public class YingYang extends Application {
         graphics.fill(halfCircle);
         Area mainArea = new Area(mainCircle);
         mainArea.add(halfCircle);
-
-
-
-
 
         graphics.setColor(Color.WHITE);
 
@@ -57,7 +52,6 @@ public class YingYang extends Application {
         graphics.fill(jang);
         Area a2 = new Area(a1);
         a2.add(jang);
-//        path.append(a2, false);
         graphics.setColor(Color.WHITE);
         Area whiteBall = new Area(new Ellipse2D.Double(300,280,25,25));
         graphics.fill(whiteBall);
@@ -67,8 +61,6 @@ public class YingYang extends Application {
         graphics.fill(blackBall);
         a2.add(blackBall);
         graphics.draw(a2);
-
-
     }
 
 

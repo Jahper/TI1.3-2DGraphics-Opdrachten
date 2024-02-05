@@ -38,23 +38,14 @@ public class Colors extends Application {
         int baseX = 50;
         int baseY = 50;
 
-//        GeneralPath path = new GeneralPath();
-
 
         for (int i = 0; i < 13; i++) {
-//            path.moveTo(baseX, baseY);
-//            path.lineTo(70, 50);
-//            path.lineTo(70, 70);
-//            path.lineTo(50, 70);
-//            path.closePath();
             graphics.setColor(colors[i]);
-//            graphics.fill(path);
 
             Shape s = new Rectangle2D.Double(baseX, baseY, 20,20);
             graphics.fill(s);
             baseX += 20;
         }
-//        graphics.draw(path);
     }
 
 
