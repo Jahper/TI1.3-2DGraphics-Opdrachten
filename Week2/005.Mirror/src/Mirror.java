@@ -55,10 +55,10 @@ public class Mirror extends Application {
 
         double formula1 = (2 / ((1 + Math.pow(2.5, 2)))) - 1;
         double formula2 = ((2 * 2.5) / (1 + Math.pow(2.5, 2)));
-        double formula3 = ((2 * Math.pow(2.5, 2)) / (1 + Math.pow(2.5, 2)));
-        AffineTransform tx = new AffineTransform(formula1, formula2, formula2, formula3,0,0);
+        double formula3 = ((2 * Math.pow(2.5, 2)) / (1 + Math.pow(2.5, 2))) - 1;
+        AffineTransform tx = new AffineTransform(formula1, formula2, formula2, formula3, 0, 0);
         tx.translate(position.getX(), position.getY());
-        tx.rotate(50);
+//        tx.rotate(50);
 
         graphics.draw(tx.createTransformedShape(rectangle2D));
         graphics.draw(rectangle2D);
