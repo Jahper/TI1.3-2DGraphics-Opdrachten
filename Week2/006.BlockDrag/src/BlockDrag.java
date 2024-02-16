@@ -18,6 +18,8 @@ public class BlockDrag extends Application {
     ArrayList<Renderable> renderables = new ArrayList<>();
     FXGraphics2D graphics;
     boolean dragging = false;
+    double xDiff;
+    double yDiff;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -62,10 +64,11 @@ public class BlockDrag extends Application {
             graphics.setColor(color);
             if (e.getY() >= renderable.getPosition().getY() - 25 && e.getY() <= renderable.getPosition().getY() + 25
                     && e.getX() >= renderable.getPosition().getX() - 25 && e.getX() <= renderable.getPosition().getX() + 25) {
+                xDiff = e.getX() - renderable.getPosition().getX();
+                yDiff = e.getY() - renderable.getPosition().getY();
                 dragging = true;
             }
         }
-        System.out.println(dragging);
     }
 
     private void mouseReleased(MouseEvent e) {
@@ -77,13 +80,24 @@ public class BlockDrag extends Application {
             Renderable renderable = renderables.get(i);
             Color color = renderable.getColor();
             graphics.setColor(color);
-            if (e.getY() >= renderable.getPosition().getY() - 25 && e.getY() <= renderable.getPosition().getY() + 25
-                    && e.getX() >= renderable.getPosition().getX() - 25 && e.getX() <= renderable.getPosition().getX() + 25
-            && !dragging) {
+            if (e.getY() >= renderable.getPosition().getY() && e.getY() <= renderable.getPosition().getY() + 50
+                    && e.getX() >= renderable.getPosition().getX() && e.getX() <= renderable.getPosition().getX() + 50 && !dragging) {
+
+
                 dragging = true;
-                renderable.setPosition(new Point2D.Double(e.getX(), e.getY()));
+
+//                xDiff = e.getX() - renderable.getPosition().getX();
+//                yDiff = e.getY() - renderable.getPosition().getY();
+
+//                renderable.setPosition(new Point2D.Double(e.getX(), e.getY()));
+
+                System.out.println(xDiff + "    :    " + yDiff);
                 graphics.clearRect(0, 0, 1920, 1080);
-                renderables.set(i, new Renderable(color, new Point2D.Double(e.getX(), e.getY())));
+                renderables.set(i, new Renderable(color, new Point2D.Double(e.getX() - xDiff, e.getY() - yDiff)));
+
+
+            } else {
+                dragging = false;
             }
             for (Renderable renderable1 : renderables) {
                 graphics.setColor(renderable1.getColor());
@@ -91,14 +105,15 @@ public class BlockDrag extends Application {
                 graphics.draw(renderable1.getShape());
             }
         }
-        dragging = false;
+
     }
-        public void init () {
-            Color[] colors = {Color.red, Color.black, Color.blue, Color.yellow, Color.green};
-            for (int i = 0; i < 5; i++) {
-                double x = i * 50;
-                double y = i * 50;
-                renderables.add(new Renderable(colors[i], new Point2D.Double(x, 50)));
-            }
+
+    public void init() {
+        Color[] colors = {Color.red, Color.black, Color.blue, Color.yellow, Color.green};
+        for (int i = 0; i < 5; i++) {
+            double x = i * 50;
+            double y = i * 50;
+            renderables.add(new Renderable(colors[i], new Point2D.Double(x, 50)));
         }
     }
+}
