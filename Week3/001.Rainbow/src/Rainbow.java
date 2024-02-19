@@ -14,7 +14,7 @@ import org.jfree.fx.ResizableCanvas;
 
 public class Rainbow extends Application {
     private ResizableCanvas canvas;
-    private double angle = Math.PI * 1.45;
+    private double angle = Math.PI * 1.44;
     private  double letterAngle = 2.35;
 
     @Override
@@ -54,9 +54,10 @@ public class Rainbow extends Application {
             tx.translate(250,250);
 
             tx.rotate(letterAngle);
-//            graphics.setColor(color[i]);
-//            graphics.fill(shape);
-            graphics.draw(tx.createTransformedShape(shape));
+            Shape shapet = tx.createTransformedShape(shape);
+            graphics.setColor(color[i]);
+            graphics.fill(shapet);
+            graphics.draw(shapet);
         }
 
 
