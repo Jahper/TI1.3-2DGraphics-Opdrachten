@@ -27,7 +27,10 @@ public class MovingCharacter extends Application {
     private BufferedImage[] jump;
     private BufferedImage image;
     private double x = 600;
+    private double y = 250;
     private boolean turned = true;
+    private boolean jumping = false;
+    private BufferedImage[] animation = new BufferedImage[57];
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -36,27 +39,7 @@ public class MovingCharacter extends Application {
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
-        try {
-            image = ImageIO.read((new File("Week3/002.MovingCharacter/resources/images/sprite.png")));
-            tiles = new BufferedImage[57];
-            running = new BufferedImage[32];
-            jump = new BufferedImage[48];
-
-            for (int i = 0; i < 57; i++) {
-                tiles[i] = image.getSubimage(64 * (i % 8), 64 * (i % 9), 64, 64);
-            }
-            for (int j = 0; j < 16; j++) {
-                running[j] = tiles[j];
-            }
-            for (int j = 0; j < 16; j++) {
-                running[16 + j] = tiles[16 - j];
-            }
-//            for (int j = 0; j < ; j++) {
-//
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        createBufferedImages();
 
         new AnimationTimer() {
             long last = -1;
@@ -75,10 +58,47 @@ public class MovingCharacter extends Application {
             }
         }.start();
 
+        canvas.setOnMousePressed(event -> {
+            jumping = true;
+            i = 0;
+        });
+
         stage.setScene(new Scene(mainPane));
         stage.setTitle("Moving Character");
         stage.show();
         draw(g2d);
+    }
+
+    private void createBufferedImages() {
+        try {
+            image = ImageIO.read((new File("Week3/002.MovingCharacter/resources/images/sprite.png")));
+            running = new BufferedImage[11];
+            jump = new BufferedImage[25];
+            //running animation
+            for (int j = 0; j < 8; j++) {
+                running[j] = image.getSubimage(64 * (j % 8), 0, 64, 64);
+            }
+            for (int j = 0; j < 4; j++) {
+                running[j] = image.getSubimage(64 * (j % 8), 64, 64, 64);
+            }
+            //jumping animation
+            for (int j = 0; j < 8; j++) {
+                jump[j] = image.getSubimage(64 * (j % 8), 64, 64, 64);
+            }
+            for (int j = 0; j < 8; j++) {
+                jump[8 + j] = image.getSubimage(64 * (j % 8), 320, 64, 64);
+            }
+            for (int j = 0; j < 3; j++) {
+                jump[16 + j] = image.getSubimage(64 * (j % 8), 448, 64, 64);
+            }
+            for (int j = 0; j < 6; j++) {
+                jump[19 + j] = image.getSubimage(64 * (j % 8), 64, 64, 64);
+            }
+            animation = running;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -87,31 +107,48 @@ public class MovingCharacter extends Application {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         AffineTransform tx = new AffineTransform();
-        tx.translate(x, 250);
-        if (turned){
-            tx.scale(-1,1);
+        tx.translate(x, y);
+        if (turned) {
+            tx.scale(-1, 1);
         }
-        graphics.drawImage(running[i], tx, null);
+        graphics.drawImage(animation[i], tx, null);
     }
 
 
     public void update(double deltaTime) throws InterruptedException {
-        Thread.sleep(250);
+        Thread.sleep(50);
         i++;
-        if (i > 31) {
-            i = 0;
+        if (jumping){
+            if (i > 24){
+                i = 0;
+                jumping = false;
+            }
+            if (i >= 13 && i <= 16){
+                y -= 10;
+            } else if (i >= 17 && i <= 20) {
+                y += 10;
+            } else {
+                y = 250;
+            }
+            animation = jump;
+        } else {
+            animation = running;
+            if (i > 7) {
+                i = 0;
+            }
         }
+
         if (x >= 600) {
             turned = true;
         } else if (x <= 30) {
             turned = false;
         }
-        if (turned){
+        if (turned) {
             x -= 10;
         } else {
             x += 10;
         }
-        System.out.println(x);
+        System.out.println(i);
     }
 
     public static void main(String[] args) {
