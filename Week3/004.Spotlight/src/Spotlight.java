@@ -88,7 +88,7 @@ public class Spotlight extends Application {
     public void init(FXGraphics2D g2d) {
         shapes.add(new Rectangle2D.Double(x,y,100,100));
         shapes.add(new Ellipse2D.Double(x,y,100, 100));
-        
+
         Random r = new Random();
         for (int i = 0; i < 1000; i++) {
             l1.add(r.nextInt(2560));
