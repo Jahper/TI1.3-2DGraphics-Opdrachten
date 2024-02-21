@@ -22,16 +22,13 @@ import org.jfree.fx.ResizableCanvas;
 public class MovingCharacter extends Application {
     private ResizableCanvas canvas;
     private int i = 0;
-    private BufferedImage[] tiles;
     private BufferedImage[] running;
     private BufferedImage[] jump;
-    private BufferedImage image;
     private double x = 600;
     private double y = 250;
     private boolean turned = true;
     private boolean jumping = false;
     private BufferedImage[] animation = new BufferedImage[57];
-
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -68,10 +65,9 @@ public class MovingCharacter extends Application {
         stage.show();
         draw(g2d);
     }
-
     private void createBufferedImages() {
         try {
-            image = ImageIO.read((new File("Week3/002.MovingCharacter/resources/images/sprite.png")));
+            BufferedImage image = ImageIO.read((new File("Week3/002.MovingCharacter/resources/images/sprite.png")));
             running = new BufferedImage[11];
             jump = new BufferedImage[25];
             //running animation
@@ -100,8 +96,6 @@ public class MovingCharacter extends Application {
             e.printStackTrace();
         }
     }
-
-
     public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
@@ -113,10 +107,8 @@ public class MovingCharacter extends Application {
         }
         graphics.drawImage(animation[i], tx, null);
     }
-
-
     public void update(double deltaTime) throws InterruptedException {
-        Thread.sleep(50);
+        Thread.sleep(25);
         i++;
         if (jumping){
             if (i > 24){
@@ -150,9 +142,7 @@ public class MovingCharacter extends Application {
         }
         System.out.println(i);
     }
-
     public static void main(String[] args) {
         launch(MovingCharacter.class);
     }
-
 }
