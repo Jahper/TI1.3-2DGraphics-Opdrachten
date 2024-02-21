@@ -21,10 +21,9 @@ import org.jfree.fx.ResizableCanvas;
 
 public class FadingImage extends Application {
     private ResizableCanvas canvas;
-    private float fade = 0.05f;
+    private float fade = 0.003f;
     private BufferedImage image;
     private BufferedImage image1;
-    private BufferedImage image2;
     private boolean waitTime = false;
 
 
@@ -32,12 +31,12 @@ public class FadingImage extends Application {
     public void start(Stage stage) throws Exception {
         image = ImageIO.read(new File("Week3/003.FadingImage/rec/20230731135539_1.jpg"));
         image1 = ImageIO.read(new File("Week3/003.FadingImage/rec/20230204220134_1.jpg"));
-        image2 = ImageIO.read(new File("Week3/003.FadingImage/rec/theSnitch.png"));
 
         BorderPane mainPane = new BorderPane();
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
+
         new AnimationTimer() {
             long last = -1;
 
@@ -64,8 +63,9 @@ public class FadingImage extends Application {
 
     public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
-        graphics.setBackground(Color.white);
+        graphics.setBackground(Color.BLACK);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        graphics.setBackground(Color.BLACK);
 
         AffineTransform tx = new AffineTransform();
         tx.translate(0, 0);
@@ -82,16 +82,16 @@ public class FadingImage extends Application {
 
 
     public void update(double deltaTime) throws InterruptedException {
-        fade += 0.001f;
+        fade += 0.003f;
         System.out.println(fade);
-        if (fade >= 0.95f){
+        if (fade >= 0.997f){
             fade = 0.1f;
             waitTime = !waitTime;
+            Thread.sleep(750);
         }
     }
 
     public static void main(String[] args) {
         launch(FadingImage.class);
     }
-
 }
