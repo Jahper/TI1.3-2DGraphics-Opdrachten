@@ -46,7 +46,7 @@ public class MovingCharacter extends Application {
                 if (last == -1)
                     last = now;
                 try {
-                    update((now - last) / 1000000000.0);
+                    update((now - last) / 1.0e8);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -108,7 +108,6 @@ public class MovingCharacter extends Application {
         graphics.drawImage(animation[i], tx, null);
     }
     public void update(double deltaTime) throws InterruptedException {
-        Thread.sleep(25);
         i++;
         if (jumping){
             if (i > 24){

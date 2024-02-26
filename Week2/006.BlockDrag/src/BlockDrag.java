@@ -41,7 +41,7 @@ public class BlockDrag extends Application {
     public void draw(FXGraphics2D graphics) {
         this.graphics = graphics;
         graphics.setTransform(new AffineTransform());
-        graphics.setBackground(Color.white);
+            graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         graphics.clearRect(0, 0, 1920, 1080);
 
