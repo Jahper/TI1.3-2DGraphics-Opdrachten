@@ -112,39 +112,23 @@ public class VerletEngine extends Application {
             }
         });
 
-
-
         if (e.getButton() == MouseButton.SECONDARY) {
-
-
             if (e.isControlDown()) {
                 particles.add(newParticle);
                 constraints.add(new DistanceConstraint(newParticle, nearest, 100));
-                constraints.add(new DistanceConstraint(newParticle, sorted.get(2), 100));
+                constraints.add(new DistanceConstraint(newParticle, sorted.get(1), 100));
             } else if (e.isShiftDown()) {
 
             } else {
                 particles.add(newParticle);
                 constraints.add(new DistanceConstraint(newParticle, nearest));
                 constraints.add(new DistanceConstraint(newParticle, sorted.get(1)));
-                System.out.println(nearest.getPosition());
-                System.out.println(sorted.get(2).getPosition());
-                System.out.println(sorted.get(1).getPosition());
             }
         } else if (e.getButton() == MouseButton.MIDDLE) {
             // Reset
             particles.clear();
             constraints.clear();
             init();
-        } else if (e.getButton() == MouseButton.PRIMARY) {
-//            particles.add(newParticle);
-//            constraints.add(new PositionConstraint(newParticle));
-        }
-    }
-
-    private void keyPressed(KeyEvent e) {
-        if (e.isControlDown()) {
-//todo
         }
     }
 
@@ -161,12 +145,15 @@ public class VerletEngine extends Application {
     private void mousePressed(MouseEvent e) {
         Point2D mousePosition = new Point2D.Double(e.getX(), e.getY());
         Particle nearest = getNearest(mousePosition);
+        Particle newParticle = new Particle(mousePosition);
         if (nearest.getPosition().distance(mousePosition) < 10) {
             mouseConstraint.setParticle(nearest);
-        } else if (mouseConstraint != null && e.getButton() == MouseButton.PRIMARY) {
-            Particle newParticle = new Particle(mousePosition);
+        } else if (mouseConstraint != null && e.getButton() == MouseButton.PRIMARY && e.isControlDown()) {
             particles.add(newParticle);
             constraints.add(new PositionConstraint(newParticle));
+        } else if (mouseConstraint != null && e.getButton() == MouseButton.PRIMARY) {
+            particles.add(newParticle);
+            constraints.add(new DistanceConstraint(newParticle, nearest));
         }
     }
 
