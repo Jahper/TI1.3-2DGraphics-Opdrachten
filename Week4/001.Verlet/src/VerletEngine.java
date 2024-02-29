@@ -151,6 +151,9 @@ public class VerletEngine extends Application {
         } else if (mouseConstraint != null && e.getButton() == MouseButton.PRIMARY && e.isControlDown()) {
             particles.add(newParticle);
             constraints.add(new PositionConstraint(newParticle));
+        } else if (mouseConstraint != null && e.getButton() == MouseButton.PRIMARY &&e.isShiftDown() ) {
+            particles.add(newParticle);
+            constraints.add(new RopeConstraint(newParticle, nearest));
         } else if (mouseConstraint != null && e.getButton() == MouseButton.PRIMARY) {
             particles.add(newParticle);
             constraints.add(new DistanceConstraint(newParticle, nearest));
