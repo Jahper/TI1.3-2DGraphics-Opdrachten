@@ -4,10 +4,14 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+
 import static javafx.application.Application.launch;
+
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -54,6 +58,7 @@ public class VerletEngine extends Application {
         draw(g2d);
     }
 
+
     public void init() {
         for (int i = 0; i < 20; i++) {
             particles.add(new Particle(new Point2D.Double(100 + 50 * i, 100)));
@@ -95,27 +100,51 @@ public class VerletEngine extends Application {
         Point2D mousePosition = new Point2D.Double(e.getX(), e.getY());
         Particle nearest = getNearest(mousePosition);
         Particle newParticle = new Particle(mousePosition);
-        particles.add(newParticle);
-        constraints.add(new DistanceConstraint(newParticle, nearest));
+
+        ArrayList<Particle> sorted = new ArrayList<>();
+        sorted.addAll(particles);
+
+        //sorteer alle elementen op afstand tot de muiscursor. De toegevoegde particle staat op 0, de nearest op 1, en de derde op 2
+        Collections.sort(sorted, new Comparator<Particle>() {
+            @Override
+            public int compare(Particle o1, Particle o2) {
+                return (int) (o1.getPosition().distance(mousePosition) - o2.getPosition().distance(mousePosition));
+            }
+        });
+
+
 
         if (e.getButton() == MouseButton.SECONDARY) {
-            ArrayList<Particle> sorted = new ArrayList<>();
-            sorted.addAll(particles);
 
-            //sorteer alle elementen op afstand tot de muiscursor. De toegevoegde particle staat op 0, de nearest op 1, en de derde op 2
-            Collections.sort(sorted, new Comparator<Particle>() {
-                @Override
-                public int compare(Particle o1, Particle o2) {
-                    return (int) (o1.getPosition().distance(mousePosition) - o2.getPosition().distance(mousePosition));
-                }
-            });
 
-            constraints.add(new DistanceConstraint(newParticle, sorted.get(2)));
+            if (e.isControlDown()) {
+                particles.add(newParticle);
+                constraints.add(new DistanceConstraint(newParticle, nearest, 100));
+                constraints.add(new DistanceConstraint(newParticle, sorted.get(2), 100));
+            } else if (e.isShiftDown()) {
+
+            } else {
+                particles.add(newParticle);
+                constraints.add(new DistanceConstraint(newParticle, nearest));
+                constraints.add(new DistanceConstraint(newParticle, sorted.get(1)));
+                System.out.println(nearest.getPosition());
+                System.out.println(sorted.get(2).getPosition());
+                System.out.println(sorted.get(1).getPosition());
+            }
         } else if (e.getButton() == MouseButton.MIDDLE) {
             // Reset
             particles.clear();
             constraints.clear();
             init();
+        } else if (e.getButton() == MouseButton.PRIMARY) {
+//            particles.add(newParticle);
+//            constraints.add(new PositionConstraint(newParticle));
+        }
+    }
+
+    private void keyPressed(KeyEvent e) {
+        if (e.isControlDown()) {
+//todo
         }
     }
 
@@ -134,6 +163,10 @@ public class VerletEngine extends Application {
         Particle nearest = getNearest(mousePosition);
         if (nearest.getPosition().distance(mousePosition) < 10) {
             mouseConstraint.setParticle(nearest);
+        } else if (mouseConstraint != null && e.getButton() == MouseButton.PRIMARY) {
+            Particle newParticle = new Particle(mousePosition);
+            particles.add(newParticle);
+            constraints.add(new PositionConstraint(newParticle));
         }
     }
 
