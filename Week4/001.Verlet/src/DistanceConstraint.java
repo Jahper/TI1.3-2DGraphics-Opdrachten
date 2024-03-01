@@ -48,7 +48,6 @@ public class DistanceConstraint implements Constraint {
     }
     private Color getColor(){
         double difference = (a.getPosition().distance(b.getPosition())) - distance;
-        System.out.println(difference);
         if (difference >= 100){
             return Color.RED;
         } else if (difference >= 70) {

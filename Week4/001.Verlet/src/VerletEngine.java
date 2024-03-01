@@ -57,8 +57,6 @@ public class VerletEngine extends Application {
         stage.show();
         draw(g2d);
     }
-
-
     public void init() {
         for (int i = 0; i < 20; i++) {
             particles.add(new Particle(new Point2D.Double(100 + 50 * i, 100)));
