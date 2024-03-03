@@ -58,15 +58,15 @@ public class VerletEngine extends Application {
         draw(g2d);
     }
     public void init() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             particles.add(new Particle(new Point2D.Double(100 + 50 * i, 100)));
         }
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             constraints.add(new DistanceConstraint(particles.get(i), particles.get(i + 1)));
         }
 
-        constraints.add(new PositionConstraint(particles.get(10)));
+        constraints.add(new PositionConstraint(particles.get(9)));
         constraints.add(mouseConstraint);
     }
 
