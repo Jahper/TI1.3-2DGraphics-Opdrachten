@@ -40,6 +40,8 @@ public class AngryBirds extends Application {
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
     private Body red;
     private Point2D mousePos = null;
+    private Vector2 force = new Vector2();
+    private boolean launched = false;
     private BufferedImage backgroundImage;
     private BufferedImage slingshotImage;
 
@@ -50,7 +52,6 @@ public class AngryBirds extends Application {
 
         // Add debug button
         javafx.scene.control.CheckBox showDebug = new CheckBox("Show debug");
-        debugSelected = true;
         showDebug.setOnAction(e -> {
             debugSelected = showDebug.isSelected();
         });
@@ -80,14 +81,24 @@ public class AngryBirds extends Application {
 
         canvas.setOnMousePressed(e -> {
             mousePos = new Point2D.Double(e.getX(), e.getY());
-            System.out.println(mousePos);
         });
 
         canvas.setOnMouseDragged(e -> {
-            //todo
             if (checkIfOnSlingshot()) {
-                System.out.println("Yipeeeee");
+                double speed = 400;
+                double diffX = (mousePos.getX() - e.getX()) * speed;
+                double diffY = ((mousePos.getY() - e.getY()) * -1) * speed;
 
+                force = new Vector2(diffX, diffY);
+            }
+        });
+
+        canvas.setOnMouseReleased(e -> {
+            if (!launched) {
+                red.setGravityScale(1);
+                red.setMass(MassType.NORMAL);
+                red.applyForce(force);
+                launched = true;
             }
         });
 
@@ -118,10 +129,11 @@ public class AngryBirds extends Application {
         //birb
         red = new Body();
         BodyFixture fixture = new BodyFixture(Geometry.createCircle(1));
-        fixture.setRestitution(0.3);
+        fixture.setRestitution(0.2);
+        fixture.setDensity(10);
         red.addFixture(fixture);
-        red.setGravityScale(1);
-        red.setMass(MassType.NORMAL);
+        red.translate(new Vector2(-36, -11.5));
+
 
         GameObject redObject = new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", red, new Vector2(0, 0), 1);
 
@@ -131,11 +143,6 @@ public class AngryBirds extends Application {
         //blocks
         createBlocks(5, 5, -18);
         createBlocks(6, 20, -18);
-
-        //slingshot
-//        Body slingshot = new Body();
-//        BodyFixture slingFix = new BodyFixture()
-
 
         //borders
         //bottom platform
@@ -192,10 +199,10 @@ public class AngryBirds extends Application {
         graphics.drawImage(backgroundImage, tx, null);
         graphics.drawImage(slingshotImage, txSling, null);
 
-        //test fixme
-        Shape r = new Rectangle2D.Double(-3850, -1400, 400, 400);
-        graphics.fill(r);
-        graphics.draw(r);
+//        //test fixme
+//        Shape r = new Rectangle2D.Double(-3850, -1400, 400, 400);
+//        graphics.fill(r);
+//        graphics.draw(r);
 
         for (GameObject go : gameObjects) {
             go.draw(graphics);
@@ -223,8 +230,8 @@ public class AngryBirds extends Application {
         for (int i = 0; i < amount; i++) {
             Body block = new Body();
             BodyFixture blockFix = new BodyFixture(Geometry.createRectangle(3.7, 3.7));
-            blockFix.setFriction(0.8);
-            blockFix.setRestitution(0.2);
+            blockFix.setFriction(0.5);
+            blockFix.setRestitution(0.6);
             block.addFixture(blockFix);
             block.setGravityScale(1);
             block.setMass(MassType.NORMAL);
