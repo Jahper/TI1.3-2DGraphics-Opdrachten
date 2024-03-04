@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  */
 public class Camera {
 	private Point2D centerPoint = new Point2D.Double(0,0);
-	private double zoom = 0.19769155847910316;
+	private double zoom = 1;
 	private double rotation = 0;
 	private Point2D lastMousePos;
 	private Canvas canvas;
@@ -57,5 +57,8 @@ public class Camera {
 	public void mouseScroll(ScrollEvent e) {
 		zoom *= (1 + e.getDeltaY()/250.0f);
 		resizable.draw(g2d);
+	}
+	public void setZoom(double zoom){
+		this.zoom = zoom;
 	}
 }

@@ -1,24 +1,34 @@
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+
 import static javafx.application.Application.launch;
+
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
+import org.dyn4j.dynamics.joint.RopeJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
+
+import javax.imageio.ImageIO;
 
 public class AngryBirds extends Application {
 
@@ -28,6 +38,10 @@ public class AngryBirds extends Application {
     private Camera camera;
     private boolean debugSelected = false;
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private Body red;
+    private Point2D mousePos = null;
+    private BufferedImage backgroundImage;
+    private BufferedImage slingshotImage;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -47,6 +61,7 @@ public class AngryBirds extends Application {
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
         camera = new Camera(canvas, g -> draw(g), g2d);
+        camera.setZoom(0.19769155847910316);
         mousePicker = new MousePicker(canvas);
 
         new AnimationTimer() {
@@ -63,6 +78,19 @@ public class AngryBirds extends Application {
             }
         }.start();
 
+        canvas.setOnMousePressed(e -> {
+            mousePos = new Point2D.Double(e.getX(), e.getY());
+            System.out.println(mousePos);
+        });
+
+        canvas.setOnMouseDragged(e -> {
+            //todo
+            if (checkIfOnSlingshot()) {
+                System.out.println("Yipeeeee");
+
+            }
+        });
+
         stage.setScene(new Scene(mainPane, 1920, 1080));
         stage.setTitle("Angry Birds");
         stage.show();
@@ -73,8 +101,22 @@ public class AngryBirds extends Application {
         world = new World();
         world.setGravity(new Vector2(0, -9.8));
 
+        //background image
+        try {
+            backgroundImage = ImageIO.read(getClass().getResource("ABBackground.jpg"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //slingshot image
+        try {
+            slingshotImage = ImageIO.read(getClass().getResource("pngegg.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         //birb
-        Body red = new Body();
+        red = new Body();
         BodyFixture fixture = new BodyFixture(Geometry.createCircle(1));
         fixture.setRestitution(0.3);
         red.addFixture(fixture);
@@ -84,32 +126,25 @@ public class AngryBirds extends Application {
         GameObject redObject = new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", red, new Vector2(0, 0), 1);
 
         gameObjects.add(redObject);
-
         world.addBody(red);
 
-        //block
+        //blocks
+        createBlocks(5, 5, -18);
+        createBlocks(6, 20, -18);
 
-        Body block = new Body();
-        BodyFixture blockFix = new BodyFixture(Geometry.createRectangle(3.5,3.5));
-        blockFix.setFriction(0.8);
-        block.addFixture(blockFix);
-        block.setGravityScale(1);
-        block.setMass(MassType.NORMAL);
-        block.translate(new Vector2(5, 0));
+        //slingshot
+//        Body slingshot = new Body();
+//        BodyFixture slingFix = new BodyFixture()
 
-        GameObject o = new GameObject("321024-removebg-preview.png", block, new Vector2(0, 0), 0.8);
 
-        gameObjects.add(o);
-
-        world.addBody(block);
-
-        //test platform
+        //borders
+        //bottom platform
 
         Body platform = new Body();
         BodyFixture platformFixture = new BodyFixture(Geometry.createRectangle(100, 1));
         platform.addFixture(platformFixture);
         platform.setMass(MassType.INFINITE);
-        platform.translate(new Vector2(0, -24));
+        platform.translate(new Vector2(0, -21));
 
         world.addBody(platform);
         //borders
@@ -134,12 +169,33 @@ public class AngryBirds extends Application {
     public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
+
+        //background image
+        AffineTransform tx = new AffineTransform();
+        tx.translate(-5000, 3000);
+        tx.scale(4, -4);
+
+        //slingshot
+        AffineTransform txSling = new AffineTransform();
+        txSling.translate(-3800, -950);
+        txSling.scale(2, -2);
+
+
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
         AffineTransform originalTransform = graphics.getTransform();
 
         graphics.setTransform(camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()));
         graphics.scale(1, -1);
+
+        //misc images
+        graphics.drawImage(backgroundImage, tx, null);
+        graphics.drawImage(slingshotImage, txSling, null);
+
+        //test fixme
+        Shape r = new Rectangle2D.Double(-3850, -1400, 400, 400);
+        graphics.fill(r);
+        graphics.draw(r);
 
         for (GameObject go : gameObjects) {
             go.draw(graphics);
@@ -151,6 +207,7 @@ public class AngryBirds extends Application {
         }
 
         graphics.setTransform(originalTransform);
+
     }
 
     public void update(double deltaTime) {
@@ -162,4 +219,29 @@ public class AngryBirds extends Application {
         launch(AngryBirds.class);
     }
 
+    private void createBlocks(int amount, double x, double y) {
+        for (int i = 0; i < amount; i++) {
+            Body block = new Body();
+            BodyFixture blockFix = new BodyFixture(Geometry.createRectangle(3.7, 3.7));
+            blockFix.setFriction(0.8);
+            blockFix.setRestitution(0.2);
+            block.addFixture(blockFix);
+            block.setGravityScale(1);
+            block.setMass(MassType.NORMAL);
+            block.translate(new Vector2(x, y + i * 3.5));
+
+            GameObject o = new GameObject("321024-removebg-preview.png", block, new Vector2(0, 0), 0.8);
+
+            gameObjects.add(o);
+
+            world.addBody(block);
+        }
+    }
+
+    private boolean checkIfOnSlingshot() {
+        double scaleX = canvas.getWidth() / 1920;
+        double scaleY = canvas.getHeight() / 1080;
+        return mousePos.getX() >= 200 * scaleX && mousePos.getX() <= 275 * scaleX
+                && mousePos.getY() >= 715 * scaleY && mousePos.getY() <= 790 * scaleY;
+    }
 }
