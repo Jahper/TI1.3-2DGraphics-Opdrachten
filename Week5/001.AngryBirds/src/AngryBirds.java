@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 
-import static javafx.application.Application.launch;
-
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
@@ -50,7 +50,11 @@ public class AngryBirds extends Application {
         showDebug.setOnAction(e -> {
             debugSelected = showDebug.isSelected();
         });
-        mainPane.setTop(showDebug);
+        //restart button
+        Button restartButton = new javafx.scene.control.Button("Restart");
+        restartButton.setOnAction(e -> addAllLevels());
+
+        mainPane.setTop(new HBox(showDebug, restartButton));
 
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
@@ -125,59 +129,25 @@ public class AngryBirds extends Application {
         addAllLevels();
         Level level1 = levels.get(0);
         gameObjects = level1.getGameObjects();
-        this.red = level1.getRed();
 
-//        //birb
-//        red = new Body();
-//        BodyFixture fixture = new BodyFixture(Geometry.createCircle(1));
-//        fixture.setRestitution(0.2);
-//        fixture.setDensity(10);
-//        red.addFixture(fixture);
-//        red.translate(new Vector2(-36, -11.5));
-//
-//
-//        GameObject redObject = new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", red, new Vector2(0, 0), 1);
-//
-//        gameObjects.add(redObject);
-//        world.addBody(red);
-
-        //blocks
-//        createBlocks(5, 5, -18);
-//        createBlocks(6, 20, -18);
+        //birb
+        getBirb();
 
         //borders
-        //bottom platform
-
-        Body platform = new Body();
-        BodyFixture platformFixture = new BodyFixture(Geometry.createRectangle(100, 1));
-        platform.addFixture(platformFixture);
-        platform.setMass(MassType.INFINITE);
-        platform.translate(new Vector2(0, -21));
-
-        world.addBody(platform);
-        //borders
-        Body border1 = new Body();
-        BodyFixture bf1 = new BodyFixture(Geometry.createRectangle(1, 1000));
-        border1.addFixture(bf1);
-        border1.setMass(MassType.INFINITE);
-        border1.translate(new Vector2(50, -24));
-
-        world.addBody(border1);
-
-        Body border2 = new Body();
-        BodyFixture bf2 = new BodyFixture(Geometry.createRectangle(1, 1000));
-        border2.addFixture(bf2);
-        border2.setMass(MassType.INFINITE);
-        border2.translate(new Vector2(-50, -24));
-
-        world.addBody(border2);
+        drawBorders();
     }
 
     private void addAllLevels() {
+        levels.clear();
+        gameObjects.clear();
+        world.removeAllBodies();
+        drawBorders();
+        launched = false;
         //todo meer levels toevoegen
         levels.add(new Level_1(this.world));
 
-
+        gameObjects.addAll(levels.get(0).getGameObjects());
+        getBirb();
     }
 
     public void draw(FXGraphics2D graphics) {
@@ -206,11 +176,6 @@ public class AngryBirds extends Application {
         graphics.drawImage(backgroundImage, tx, null);
         graphics.drawImage(slingshotImage, txSling, null);
 
-//        //test fixme
-//        Shape r = new Rectangle2D.Double(-3850, -1400, 400, 400);
-//        graphics.fill(r);
-//        graphics.draw(r);
-
         for (GameObject go : gameObjects) {
             go.draw(graphics);
         }
@@ -229,28 +194,55 @@ public class AngryBirds extends Application {
         world.update(deltaTime);
     }
 
+    private void drawBorders(){
+        //borders
+        //bottom platform
+
+        Body platform = new Body();
+        BodyFixture platformFixture = new BodyFixture(Geometry.createRectangle(100, 1));
+        platform.addFixture(platformFixture);
+        platform.setMass(MassType.INFINITE);
+        platform.translate(new Vector2(0, -21));
+
+        world.addBody(platform);
+        //borders
+        Body border1 = new Body();
+        BodyFixture bf1 = new BodyFixture(Geometry.createRectangle(1, 1000));
+        border1.addFixture(bf1);
+        border1.setMass(MassType.INFINITE);
+        border1.translate(new Vector2(50, -24));
+
+        world.addBody(border1);
+
+        Body border2 = new Body();
+        BodyFixture bf2 = new BodyFixture(Geometry.createRectangle(1, 1000));
+        border2.addFixture(bf2);
+        border2.setMass(MassType.INFINITE);
+        border2.translate(new Vector2(-50, -24));
+
+        world.addBody(border2);
+    }
+    private void getBirb(){
+        //birb
+        Body red = new Body();
+        BodyFixture fixture = new BodyFixture(Geometry.createCircle(1));
+        fixture.setRestitution(0.2);
+        fixture.setDensity(20);
+        red.addFixture(fixture);
+        red.setMass(MassType.INFINITE);
+        red.translate(new Vector2(-36, -11.5));
+
+
+        GameObject redObject = new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", red, new Vector2(0, 0), 1);
+
+        gameObjects.add(redObject);
+        this.red = red;
+        world.addBody(this.red);
+    }
+
     public static void main(String[] args) {
         launch(AngryBirds.class);
     }
-
-//    private void createBlocks(int amount, double x, double y) {
-//        for (int i = 0; i < amount; i++) {
-//            Body block = new Body();
-//            BodyFixture blockFix = new BodyFixture(Geometry.createRectangle(3.7, 3.7));
-//            blockFix.setFriction(0.5);
-//            blockFix.setRestitution(0.6);
-//            block.addFixture(blockFix);
-//            block.setGravityScale(1);
-//            block.setMass(MassType.NORMAL);
-//            block.translate(new Vector2(x, y + i * 3.5));
-//
-//            GameObject o = new GameObject("321024-removebg-preview.png", block, new Vector2(0, 0), 0.8);
-//
-//            gameObjects.add(o);
-//
-//            world.addBody(block);
-//        }
-//    }
 
     private boolean checkIfOnSlingshot() {
         double scaleX = canvas.getWidth() / 1920;
