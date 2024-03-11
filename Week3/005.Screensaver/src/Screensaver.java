@@ -25,7 +25,6 @@ public class Screensaver extends Application {
     private FXGraphics2D graphics;
     private ArrayList<MovingPoint> movingPoints = new ArrayList<>();
     private ArrayList<GeneralPath> paths = new ArrayList<>();
-    private int waitCount = 749;
 
 
     @Override
@@ -94,15 +93,12 @@ public class Screensaver extends Application {
                 path.lineTo(p.getX(), p.getY());
             }
             path.closePath();
-            if (waitCount >= 750) {
-                paths.add(path);
-            }
+            paths.add(path);
 
-            if (paths.size() > 30){
+            if (paths.size() > 30) {
                 paths.remove(0);
             }
         }
-        waitCount++;
         draw(graphics);
     }
 
