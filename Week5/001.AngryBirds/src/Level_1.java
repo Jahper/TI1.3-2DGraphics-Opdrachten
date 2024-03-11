@@ -17,6 +17,26 @@ public class Level_1 implements Level {
         //blocks
         createBlocks(5, 5, -18);
         createBlocks(6, 20, -18);
+
+        //piggies
+        createPiggy(1, 5, 0);
+    }
+
+    private void createPiggy(int amount, int x, int y) {
+        Body piggy = new Body();
+        BodyFixture pigFix = new BodyFixture(Geometry.createCircle(1.7));
+        pigFix.setFriction(0.5);
+        pigFix.setRestitution(0.2);
+        piggy.addFixture(pigFix);
+        piggy.setGravityScale(2);
+        piggy.setMass(MassType.NORMAL);
+        piggy.translate(new Vector2(x,y));
+
+        GameObject o = new GameObject("badPiggy.png", piggy, new Vector2(0, 0), 0.45);
+
+        gameObjects.add(o);
+
+        world.addBody(piggy);
     }
 
     private void createBlocks(int amount, double x, double y) {
