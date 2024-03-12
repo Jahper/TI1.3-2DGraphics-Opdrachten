@@ -12,19 +12,26 @@ public class PinballFrame {
 
     public PinballFrame() {
         createFrame();
-
-        //todo frame maken
     }
 
     private void createFrame() {
         //upper border
-        bodies.add(getBorderBody(800, 0.1, new Vector2(0, -500)));
+        bodies.add(getBorderBody(900, 0.1, new Vector2(50, -500)));
 
         //side borders
         //left
-        bodies.add(getBorderBody(0.1, 1000, new Vector2(-400, 0)));
+        bodies.add(getBorderBody(0.1, 1600, new Vector2(-400, 300)));
+//        bodies.add(getBorderBody(0.1, 450, new Vector2(-400, -275)));
         //right
-        bodies.add(getBorderBody(0.1, 1000, new Vector2(400, 0)));
+        bodies.add(getBorderBody(0.1, 500, new Vector2(400, 300)));
+//        bodies.add(getBorderBody(0.1, 450, new Vector2(400, -275)));
+
+        //side funnels
+        //right
+        bodies.add(getBorderBody(0.1, 1600, new Vector2(500, 300)));
+//        bodies.add(getBorderBody(0.1, 450, new Vector2(-400, -275)));
+        //right
+
 
         //bottom borders
         //left
@@ -37,6 +44,7 @@ public class PinballFrame {
         bodies.add(rightBottomBody);
 
     }
+
     //method for returning a body for the borders of the pinball game
     private Body getBorderBody(double width, double height, Vector2 vector2) {
         Body body = new Body();

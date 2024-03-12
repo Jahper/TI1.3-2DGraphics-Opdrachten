@@ -73,7 +73,7 @@ public class Pinball extends Application {
         }
     }
 
-    public void init(){
+    public void init() {
 //        this.gameObjects.addAll(new PinballFrame().getObjects());
         PinballFrame pinballFrame = new PinballFrame();
         for (Body body : pinballFrame.getBodies()) {
