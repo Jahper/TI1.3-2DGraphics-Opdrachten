@@ -66,17 +66,20 @@ public class Pinball extends Application {
         g.setTransform(new AffineTransform());
         g.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         g.setTransform(camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()));
+        g.setBackground(Color.WHITE);
         g.setColor(Color.BLUE);
-        DebugDraw.draw(g, world, 1);
+
         for (GameObject gameObject : gameObjects) {
             gameObject.draw(g);
         }
+        DebugDraw.draw(g, world, 1);
     }
 
     public void init() {
-//        this.gameObjects.addAll(new PinballFrame().getObjects());
         PinballFrame pinballFrame = new PinballFrame();
-        for (Body body : pinballFrame.getBodies()) {
+        this.gameObjects.addAll(pinballFrame.getObjects());
+
+        for (Body body : new PinballFrame().getBodies()) {
             world.addBody(body);
         }
     }
