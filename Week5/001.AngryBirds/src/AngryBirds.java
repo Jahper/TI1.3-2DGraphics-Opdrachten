@@ -229,7 +229,6 @@ public class AngryBirds extends Application {
         fixture.setRestitution(0.2);
         fixture.setDensity(20);
         red.addFixture(fixture);
-//        red.setMass(MassType.INFINITE);
         red.setMass(MassType.NORMAL);
         red.setGravityScale(0);
         red.translate(new Vector2(-36, -11.5));
