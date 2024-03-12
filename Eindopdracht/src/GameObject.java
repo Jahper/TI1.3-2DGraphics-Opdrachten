@@ -11,6 +11,7 @@ import java.io.IOException;
  * Created by johan on 2017-03-08.
  */
 public class GameObject {
+    //todo getter voor image aanmaken om te checken of er score toegekend moet worden
 
     private Body body;
     private BufferedImage image;
