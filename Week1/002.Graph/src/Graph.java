@@ -1,12 +1,13 @@
 import java.awt.*;
 import java.awt.geom.*;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+
+//duurt lang om te laden, met een klein beetje geduld doet ie het prima!
 
 public class Graph extends Application {
     @Override

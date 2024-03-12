@@ -81,7 +81,6 @@ public class Spirograph extends Application {
 
         double lastX = a * Math.cos(b * 0) + c * Math.cos(d * 0);
         double lastY = a * Math.sin(b * 0) + c * Math.sin(d * 0);
-//        double phi;
 
         for (double i = 0; i < 1000; i+= 0.001) {
             double phi = i * 10;

@@ -1,7 +1,5 @@
-import java.awt.*;
 import java.awt.geom.*;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;

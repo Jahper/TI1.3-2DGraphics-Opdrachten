@@ -94,7 +94,7 @@ public class AngryBirds extends Application {
 
         canvas.setOnMouseReleased(e -> {
             if (!launched) {
-//                red.setGravityScale(1);
+                red.setGravityScale(1);
 //                red.setMass(MassType.NORMAL);
                 red.applyForce(force);
                 launched = true;
