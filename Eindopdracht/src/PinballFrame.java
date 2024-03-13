@@ -49,6 +49,14 @@ public class PinballFrame {
 
         //upper border
         createBodyAndGameObject(1000, 40, new Vector2(5, -500), "FrameImages/brickTopPinball.png", new Vector2(-75, -230), 0.1007);
+        //temporary bottom border for testing
+        //fixme
+        Body b = new Body();
+        BodyFixture bf = new BodyFixture(Geometry.createRectangle(2000, 10));
+        b.addFixture(bf);
+        b.setMass(MassType.INFINITE);
+        b.translate(new Vector2(0, 485));
+        bodies.add(b);
     }
 
     //method for returning a body for the borders of the pinball game
