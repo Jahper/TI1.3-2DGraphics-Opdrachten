@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.jfree.fx.ResizableCanvas;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
@@ -10,7 +11,6 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -46,7 +46,7 @@ public class Pinball extends Application {
 
         ball = createBall();
 
-//        canvas.setOnMouseClicked(e -> ball.applyImpulse(new Vector2(0,-100000000)));
+//        canvas.setOnMouseClicked(e -> ball.applyForce(new Vector2(0,-100000000)));
 
         new AnimationTimer() {
             long last = -1;
@@ -101,7 +101,7 @@ public class Pinball extends Application {
         PinballFrame pinballFrame = new PinballFrame();
         this.gameObjects.addAll(pinballFrame.getObjects());
 
-        for (Body body : new PinballFrame().getBodies()) {
+        for (Body body : pinballFrame.getBodies()) {
             world.addBody(body);
         }
 //        createBall();
@@ -109,12 +109,13 @@ public class Pinball extends Application {
 
     private Body createBall() {
         Body ball = new Body();
-        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(1));
+        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(10));
+        ballFixture.setFriction(0.01);
         ballFixture.setRestitution(0.6);
-        ballFixture.setDensity(1);
+        ballFixture.setDensity(0.001);
         ball.addFixture(ballFixture);
         ball.setMass(MassType.NORMAL);
-        ball.setGravityScale(1);
+        ball.setGravityScale(100);
         ball.translate(new Vector2(0, 100));
         world.addBody(ball);
         gameObjects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0,0), 0.1));
