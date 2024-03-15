@@ -15,7 +15,7 @@ import java.awt.geom.GeneralPath;
 /**
  * Created by johan on 2017-03-08.
  */
-public class DebugDraw {
+public class DebugDrawPinball {
 
     public static void draw(FXGraphics2D g2d, World world, double scale) {
         for (Body b : world.getBodies()) {

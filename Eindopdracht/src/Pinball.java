@@ -1,6 +1,7 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.ResizableCanvas;
@@ -23,6 +24,7 @@ public class Pinball extends Application {
     private Body ball;
     private World world = new World();
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private boolean debugOn = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -36,7 +38,12 @@ public class Pinball extends Application {
 
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
 
+        RadioButton radioButton = new RadioButton("debug");
+
+
+
         mainPane.setCenter(canvas);
+        mainPane.setTop(radioButton);
 
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
@@ -45,6 +52,15 @@ public class Pinball extends Application {
         mousePicker = new MousePicker(canvas);
 
         ball = createBall();
+
+        radioButton.setOnAction(e -> {
+            if (radioButton.isSelected()) {
+                debugOn = true;
+            } else {
+                debugOn = false;
+            }
+        });
+
 
 //        canvas.setOnMouseClicked(e -> ball.applyForce(new Vector2(0,-100000000)));
 
@@ -90,10 +106,9 @@ public class Pinball extends Application {
         for (GameObject gameObject : gameObjects) {
             gameObject.draw(g);
         }
-        DebugDraw.draw(g, world, 1);
-
-
-
+        if (debugOn) {
+            DebugDrawPinball.draw(g, world, 1);
+        }
     }
 
     public void init() {
@@ -109,16 +124,16 @@ public class Pinball extends Application {
 
     private Body createBall() {
         Body ball = new Body();
-        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(10));
-        ballFixture.setFriction(0.01);
-        ballFixture.setRestitution(0.6);
-        ballFixture.setDensity(0.001);
+        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.5));
+        ballFixture.setFriction(0.5);
+        ballFixture.setRestitution(0.5);
+        ballFixture.setDensity(1);
         ball.addFixture(ballFixture);
         ball.setMass(MassType.NORMAL);
-        ball.setGravityScale(100);
-        ball.translate(new Vector2(0, 100));
+        ball.setGravityScale(10);
+        ball.translate(new Vector2(0, -10));
         world.addBody(ball);
-        gameObjects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0,0), 0.1));
+        gameObjects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0,0), 0.01));
         return ball;
     }
 }
