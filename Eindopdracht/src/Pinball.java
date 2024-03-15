@@ -24,7 +24,7 @@ public class Pinball extends Application {
     private Body ball;
     private World world = new World();
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
-    private boolean debugOn = false;
+    private boolean debugOn = true;
 
     public static void main(String[] args) {
         launch(args);
@@ -48,6 +48,8 @@ public class Pinball extends Application {
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
         this.camera = new Camera(canvas, g -> draw(g), g2d);
+
+        camera.setZoom(10);
 
         mousePicker = new MousePicker(canvas);
 
