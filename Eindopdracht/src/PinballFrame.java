@@ -19,23 +19,23 @@ public class PinballFrame {
         //side borders
         //left
         //bottom
-        createBodyAndGameObject(4, 30, new Vector2(-40, 39.8), "FrameImages/brickSideMediumLeft.png", new Vector2(-210, 150), 0.012);
+        createBodyAndGameObject(4, 30, new Vector2(-37.5, 41), "FrameImages/brickSideMediumLeft.png", new Vector2(-210, 150), 0.012);
 
         //bottom borders
         //left part 1
-        Body leftBottomBody = createBodyAndGameObject(25, 2.8, new Vector2(-28.5, 30), "FrameImages/sidePipePinballLeft.png", new Vector2(-290, 2.5), 0.012);
+        Body leftBottomBody = createBodyAndGameObject(25, 2.8, new Vector2(-28.5, 30), "FrameImages/sidePipePinballLeft.png", new Vector2(-290, 25), 0.012);
         leftBottomBody.rotate(0.4, new Vector2(-27.5, 30));
         //left part 2
-        Body leftBottomBody2 = createBodyAndGameObject(10, 2.8, new Vector2(-45, 30), "FrameImages/pipeSectionPinball.png", new Vector2(900, 2.5), 0.012);
+        Body leftBottomBody2 = createBodyAndGameObject(10, 2.8, new Vector2(-45, 30), "FrameImages/pipeSectionPinball.png", new Vector2(900, 25), 0.012);
         leftBottomBody2.rotate(0.4, new Vector2(-27.5, 30));
         //right
-        Body rightBottomBody = createBodyAndGameObject(25, 2.8, new Vector2(28.5, 30), "FrameImages/sidePipePinballRight.png", new Vector2(80, -2.5), 0.012);
+        Body rightBottomBody = createBodyAndGameObject(25, 2.8, new Vector2(28.5, 30), "FrameImages/sidePipePinballRight.png", new Vector2(0, -25), 0.012);
         rightBottomBody.rotate(-0.4, new Vector2(27.5, 30));
 
         //side borders
         //left
         //middle
-        createBodyAndGameObject(4, 40, new Vector2(-37.5, -10), "FrameImages/brickAndPipe.png", new Vector2(-4.2, 500), 0.012);
+        createBodyAndGameObject(4, 40, new Vector2(-37.5, -10), "FrameImages/brickAndPipe.png", new Vector2(-30, 200), 0.012);
         //top
         createBodyAndGameObject(4, 10, new Vector2(-37.5, -45.5), "FrameImages/brickSideLeftSmall.png", new Vector2(-225, -50), 0.012);
 
