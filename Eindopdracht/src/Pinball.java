@@ -67,14 +67,14 @@ public class Pinball extends Application {
 
 
 
-//        canvas.setOnMousePressed(event -> { fixme
-//            System.out.println(event.getButton());
-//            if (event.getButton() == MouseButton.PRIMARY) {
-//                pinballFrame.flipLeft();
-//            } else if (event.getButton() == MouseButton.SECONDARY) {
-//                pinballFrame.flipRight();
-//            }
-//        });
+        canvas.setOnMousePressed(event -> {
+            System.out.println(event.getButton());
+            if (event.getButton() == MouseButton.PRIMARY) {
+                pinballFrame.flipLeft();
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                pinballFrame.flipRight();
+            }
+        });
         new AnimationTimer() {
             long last = -1;
 
@@ -137,8 +137,8 @@ public class Pinball extends Application {
         Body ball = new Body();
         BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.5));
         ballFixture.setFriction(0.5);
-        ballFixture.setRestitution(0.5);
-        ballFixture.setDensity(1);
+        ballFixture.setRestitution(0.7);
+        ballFixture.setDensity(0.001);
         ball.addFixture(ballFixture);
         ball.setMass(MassType.NORMAL);
         ball.setGravityScale(10);
