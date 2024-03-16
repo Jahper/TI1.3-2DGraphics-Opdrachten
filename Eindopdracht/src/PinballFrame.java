@@ -1,5 +1,7 @@
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.dynamics.World;
+import org.dyn4j.dynamics.joint.RevoluteJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
@@ -7,11 +9,62 @@ import org.dyn4j.geometry.Vector2;
 import java.util.ArrayList;
 
 public class PinballFrame {
+    private World world;
     private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<Body> bodies = new ArrayList<>();
+    private Body flipperLeft;
+    private Body flipperRight;
 
-    public PinballFrame() {
+    public PinballFrame(World world) {
+        this.world = world;
+
         createFrame();
+    }
+
+    public void flipLeft() {
+        flipperLeft.applyImpulse(new Vector2(0, -10000));
+    }
+
+    public void flipRight() {
+        flipperRight.applyImpulse(new Vector2(0, -10000));
+    }
+
+    private void createFlippers(Body left, Body right) {
+        //todo voor beide toevoegen aan gameobjects en textures maken
+        //todo blokken toevoegen om rom te beperken van flipper
+
+        Body flipperLeft = new Body();
+        BodyFixture bodyFixtureLeft = new BodyFixture(Geometry.createRectangle(15, 2.8));
+//        bodyFixture.setRestitution(10);
+        flipperLeft.addFixture(bodyFixtureLeft);
+        flipperLeft.setMass(MassType.NORMAL);//fixme
+        flipperLeft.setGravityScale(1);
+        flipperLeft.translate(new Vector2(-9, 34));
+        bodies.add(flipperLeft);
+        this.flipperLeft = flipperLeft;
+
+        RevoluteJoint jointLeft = new RevoluteJoint(left, flipperLeft, new Vector2(-18, 34.5));
+        world.addJoint(jointLeft);
+
+//        Body test = new Body();
+//        BodyFixture b = new BodyFixture(Geometry.createRectangle(1,1));
+//        test.addFixture(b);
+//        test.translate(new Vector2(-18, 34.5));
+////        bodies.add(test);
+
+        Body flipperRight = new Body();
+        BodyFixture bodyFixtureRight = new BodyFixture(Geometry.createRectangle(15, 2.8));
+        flipperRight.addFixture(bodyFixtureRight);
+        flipperRight.setMass(MassType.NORMAL);//fixme
+        flipperRight.setGravityScale(1);
+        flipperRight.translate(new Vector2(9, 34));
+        bodies.add(flipperRight);
+        this.flipperRight = flipperRight;
+
+        RevoluteJoint jointRight = new RevoluteJoint(right, flipperRight, new Vector2(18, 34.5));
+        world.addJoint(jointRight);
+
+
     }
 
     private void createFrame() {
@@ -54,16 +107,21 @@ public class PinballFrame {
         //fixme
         Body b = new Body();
         BodyFixture bf = new BodyFixture(Geometry.createRectangle(200, 1));
+        bf.setFriction(0.7);
         b.addFixture(bf);
         b.setMass(MassType.INFINITE);
         b.translate(new Vector2(0, 48.5));
         bodies.add(b);
+
+        createFlippers(leftBottomBody, rightBottomBody);
     }
 
     //method for returning a body for the borders of the pinball game
     private Body createBodyAndGameObject(double width, double height, Vector2 vector2, String imageFile, Vector2 offset, double scale) {
         Body body = new Body();
         BodyFixture bodyFixture = new BodyFixture(Geometry.createRectangle(width, height));
+        bodyFixture.setFriction(0.7);
+//        bodyFixture.setRestitution(10);
         body.addFixture(bodyFixture);
         body.setMass(MassType.INFINITE);
         body.translate(vector2);

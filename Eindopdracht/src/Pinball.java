@@ -2,6 +2,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.ResizableCanvas;
@@ -25,6 +26,7 @@ public class Pinball extends Application {
     private World world = new World();
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
     private boolean debugOn = true;
+    private PinballFrame pinballFrame;
 
     public static void main(String[] args) {
         launch(args);
@@ -64,8 +66,15 @@ public class Pinball extends Application {
         });
 
 
-//        canvas.setOnMouseClicked(e -> ball.applyForce(new Vector2(0,-100000000)));
 
+//        canvas.setOnMousePressed(event -> { fixme
+//            System.out.println(event.getButton());
+//            if (event.getButton() == MouseButton.PRIMARY) {
+//                pinballFrame.flipLeft();
+//            } else if (event.getButton() == MouseButton.SECONDARY) {
+//                pinballFrame.flipRight();
+//            }
+//        });
         new AnimationTimer() {
             long last = -1;
 
@@ -115,7 +124,7 @@ public class Pinball extends Application {
 
     public void init() {
         //frame
-        PinballFrame pinballFrame = new PinballFrame();
+        this.pinballFrame = new PinballFrame(this.world);
         this.gameObjects.addAll(pinballFrame.getObjects());
 
         for (Body body : pinballFrame.getBodies()) {
