@@ -1,18 +1,21 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.jfree.fx.ResizableCanvas;
-import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.BodyFixture;
+
+
 import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.Geometry;
-import org.dyn4j.geometry.MassType;
+
+
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
+
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -22,11 +25,12 @@ public class Pinball extends Application {
     private ResizableCanvas canvas;
     private Camera camera;
     private MousePicker mousePicker;
-    private Body ball;
     private World world = new World();
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
     private boolean debugOn = true;
     private PinballFrame pinballFrame;
+    private Launcher launcher;
+    private Ball ball;
 
     public static void main(String[] args) {
         launch(args);
@@ -42,10 +46,12 @@ public class Pinball extends Application {
 
         RadioButton radioButton = new RadioButton("debug");
 
+        Button reset = new Button("reset");
 
+        HBox topBar = new HBox(radioButton, reset);
 
         mainPane.setCenter(canvas);
-        mainPane.setTop(radioButton);
+        mainPane.setTop(topBar);
 
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
@@ -55,7 +61,7 @@ public class Pinball extends Application {
 
         mousePicker = new MousePicker(canvas);
 
-        ball = createBall();
+//        ball = createBall();
 
         radioButton.setOnAction(e -> {
             if (radioButton.isSelected()) {
@@ -65,10 +71,12 @@ public class Pinball extends Application {
             }
         });
 
+        reset.setOnAction(e -> {
+            ball.resetBall();
+        });
 
 
         canvas.setOnMousePressed(event -> {
-            System.out.println(event.getButton());
             if (event.getButton() == MouseButton.PRIMARY) {
                 pinballFrame.flipLeft();
             } else if (event.getButton() == MouseButton.SECONDARY) {
@@ -101,6 +109,8 @@ public class Pinball extends Application {
 
     private void update(double deltaTime) {
         mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 1);
+        launcher.update(deltaTime);
+        ball.update(deltaTime);
         world.update(deltaTime);
     }
 
@@ -110,8 +120,6 @@ public class Pinball extends Application {
         g.setTransform(camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()));
         g.setBackground(Color.WHITE);
         g.setColor(Color.BLUE);
-
-//        DebugDraw.draw(g, world, 1);
 
 
         for (GameObject gameObject : gameObjects) {
@@ -126,25 +134,26 @@ public class Pinball extends Application {
         //frame
         this.pinballFrame = new PinballFrame(this.world);
         this.gameObjects.addAll(pinballFrame.getObjects());
-
-        for (Body body : pinballFrame.getBodies()) {
-            world.addBody(body);
-        }
-//        createBall();
+        //launcher
+        this.launcher = new Launcher(world);
+        this.gameObjects.addAll(launcher.getObjects());
+        //ball
+        this.ball = new Ball(world);
+        this.gameObjects.addAll(ball.getObjects());
     }
 
-    private Body createBall() {
-        Body ball = new Body();
-        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(1));
-        ballFixture.setFriction(0.5);
-        ballFixture.setRestitution(0.2);
-        ballFixture.setDensity(0.001);
-        ball.addFixture(ballFixture);
-        ball.setMass(MassType.NORMAL);
-        ball.setGravityScale(10);
-        ball.translate(new Vector2(44.5, 0));
-        world.addBody(ball);
-        gameObjects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0,0), 0.01));
-        return ball;
-    }
+//    private Body createBall() {
+//        Body ball = new Body();
+//        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(1));
+//        ballFixture.setFriction(0.5);
+//        ballFixture.setRestitution(0.2);
+//        ballFixture.setDensity(0.001);
+//        ball.addFixture(ballFixture);
+//        ball.setMass(MassType.NORMAL);
+//        ball.setGravityScale(10);
+//        ball.translate(new Vector2(44.5, 0));
+//        world.addBody(ball);
+//        gameObjects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0, 0), 0.01));
+//        return ball;
+//    }
 }
