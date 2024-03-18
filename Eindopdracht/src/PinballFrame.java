@@ -1,6 +1,8 @@
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
+import org.dyn4j.dynamics.joint.PinJoint;
+import org.dyn4j.dynamics.joint.PrismaticJoint;
 import org.dyn4j.dynamics.joint.RevoluteJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
@@ -118,7 +120,9 @@ public class PinballFrame {
         b.translate(new Vector2(0, 48.5));
         bodies.add(b);
 
+
         createFlippers(leftBottomBody, rightBottomBody);
+        createLauncher();
         createBounceThingies();
     }
 
@@ -138,13 +142,34 @@ public class PinballFrame {
 
     private void createBounceThingies() {
         Body entryBlock = new Body();
-        BodyFixture entryBlockFixture = new BodyFixture(Geometry.createSquare(6));
+        BodyFixture entryBlockFixture = new BodyFixture(Geometry.createSquare(5));
         entryBlockFixture.setRestitution(10);
         entryBlock.addFixture(entryBlockFixture);
         entryBlock.setMass(MassType.INFINITE);
         entryBlock.translate(new Vector2(47.5, -1.5));
         entryBlock.rotate(0.9, new Vector2(47.5, -1.5));
         bodies.add(entryBlock);
+
+    }
+
+    private void createLauncher() {
+        //bottom part
+        Body bottom = createBodyAndGameObjectFrame(4, 4, new Vector2(45, 49), "FrameImages/bottomBrick.png", new Vector2(30, -20), 0.01145);
+        Body launchPad = new Body();
+        BodyFixture launchPadFix = new BodyFixture(Geometry.createRectangle(4,2));
+        launchPad.addFixture(launchPadFix);
+        launchPad.setMass(MassType.NORMAL);
+        launchPad.translate(new Vector2(44.5, 20));
+        bodies.add(launchPad);
+
+        PrismaticJoint joint = new PrismaticJoint(launchPad, bottom, new Vector2(45, 10), new Vector2(0, 45));
+        joint.setLimitEnabled(true);
+        joint.setMotorEnabled(true);
+        joint.setLimits(0, 20);
+        joint.setMotorSpeed(-100000);
+        joint.setMaximumMotorForce(10000000);
+        world.addJoint(joint);
+
 
     }
 

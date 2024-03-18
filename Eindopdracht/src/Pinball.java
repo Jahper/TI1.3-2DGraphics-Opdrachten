@@ -135,14 +135,14 @@ public class Pinball extends Application {
 
     private Body createBall() {
         Body ball = new Body();
-        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.5));
+        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(1));
         ballFixture.setFriction(0.5);
-        ballFixture.setRestitution(0.7);
+        ballFixture.setRestitution(0.2);
         ballFixture.setDensity(0.001);
         ball.addFixture(ballFixture);
         ball.setMass(MassType.NORMAL);
         ball.setGravityScale(10);
-        ball.translate(new Vector2(0, -10));
+        ball.translate(new Vector2(44.5, 0));
         world.addBody(ball);
         gameObjects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0,0), 0.01));
         return ball;
