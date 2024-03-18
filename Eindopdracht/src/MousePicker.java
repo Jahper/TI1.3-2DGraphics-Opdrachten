@@ -88,8 +88,9 @@ public class MousePicker {
                         false, // include inactive bodies
                         false, // we don't need collision info
                         results);
+                //aangepast om ball niet mee te laten draggen
 
-                if (detect) {
+                if (detect && results.get(0).getBody().getGravityScale() != 10) {
                     Body target = results.get(0).getBody();
 
                     target.setAutoSleepingEnabled(false);
@@ -102,8 +103,8 @@ public class MousePicker {
 
                     joint = new MotorJoint(target, body);
                     joint.setCollisionAllowed(false);
-                    joint.setMaximumForce(1000000000);
-                    joint.setMaximumTorque(1000000000);
+                    joint.setMaximumForce(100000000);
+                    joint.setMaximumTorque(0.01);
 
                     world.addJoint(joint);
                 }

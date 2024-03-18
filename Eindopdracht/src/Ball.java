@@ -13,7 +13,7 @@ public class Ball extends FramePart {
         createBall();
     }
 
-    private Body createBall() {
+    private void createBall() {
         this.ball = new Body();
         BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.5));
 //        ballFixture.setFriction(0.3);
@@ -23,25 +23,26 @@ public class Ball extends FramePart {
         ball.setMass(MassType.NORMAL);
         ball.setGravityScale(10);
         startPos = new Vector2(44.5, 18);
-//        ball.translate(startPos);
-        resetBall();
-        resetBall();
+        ball.translate(startPos);
         world.addBody(ball);
         objects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0, 0), 0.01));
-        return ball;
     }
-    //todo ball reset niet goed
     public void resetBall() {
-        ball.translate(new Vector2());
+        ball.translateToOrigin();
         ball.translate(startPos);
+        ball.setAsleep(true);
+        ball.setAsleep(false);
     }
 
     public void update(double deltaTime) {
-        System.out.println(ball.getTransform().getTranslationY());
-
         if (ball.getTransform().getTranslationY() > 60) {
-            System.out.println("dddddddd");
-//            resetBall();
+            resetBall();
+        }
+        //houdt ball in het midden
+        if (ball.getTransform().getTranslationY() > 15 && ball.getTransform().getTranslationX() > 42.5) {
+            double y = ball.getTransform().getTranslationY();
+            ball.translateToOrigin();
+            ball.translate(new Vector2(44.5, y));
         }
     }
 }

@@ -1,13 +1,10 @@
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.dynamics.joint.PrismaticJoint;
 import org.dyn4j.dynamics.joint.RevoluteJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
-
-import java.util.ArrayList;
 
 public class PinballFrame extends FramePart {
     private Body flipperLeft;
@@ -45,12 +42,6 @@ public class PinballFrame extends FramePart {
         jointLeft.setLimitEnabled(true);
         jointLeft.setLimits(-0.38, 0.38);
         world.addJoint(jointLeft);
-
-//        Body test = new Body();
-//        BodyFixture b = new BodyFixture(Geometry.createRectangle(1,1));
-//        test.addFixture(b);
-//        test.translate(new Vector2(-18, 33.5));
-//        bodies.add(test);
 
         Body flipperRight = new Body();
         BodyFixture bodyFixtureRight = new BodyFixture(Geometry.createRectangle(13, 2.8));
@@ -120,9 +111,6 @@ public class PinballFrame extends FramePart {
         createFlippers(leftBottomBody, rightBottomBody);
         createBounceThingies();
     }
-
-    //method for returning a body for the borders of the pinball game
-
 
     private void createBounceThingies() {
         Body entryBlock = new Body();

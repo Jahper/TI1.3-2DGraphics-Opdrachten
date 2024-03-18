@@ -9,16 +9,13 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.jfree.fx.ResizableCanvas;
 
-
 import org.dyn4j.dynamics.World;
-
-
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
 
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+
 import java.util.ArrayList;
 
 public class Pinball extends Application {
@@ -60,8 +57,6 @@ public class Pinball extends Application {
         camera.setZoom(10);
 
         mousePicker = new MousePicker(canvas);
-
-//        ball = createBall();
 
         radioButton.setOnAction(e -> {
             if (radioButton.isSelected()) {
@@ -121,7 +116,6 @@ public class Pinball extends Application {
         g.setBackground(Color.WHITE);
         g.setColor(Color.BLUE);
 
-
         for (GameObject gameObject : gameObjects) {
             gameObject.draw(g);
         }
@@ -141,19 +135,4 @@ public class Pinball extends Application {
         this.ball = new Ball(world);
         this.gameObjects.addAll(ball.getObjects());
     }
-
-//    private Body createBall() {
-//        Body ball = new Body();
-//        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(1));
-//        ballFixture.setFriction(0.5);
-//        ballFixture.setRestitution(0.2);
-//        ballFixture.setDensity(0.001);
-//        ball.addFixture(ballFixture);
-//        ball.setMass(MassType.NORMAL);
-//        ball.setGravityScale(10);
-//        ball.translate(new Vector2(44.5, 0));
-//        world.addBody(ball);
-//        gameObjects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0, 0), 0.01));
-//        return ball;
-//    }
 }
