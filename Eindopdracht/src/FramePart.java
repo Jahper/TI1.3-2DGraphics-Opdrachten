@@ -20,7 +20,20 @@ public abstract class FramePart {
         Body body = new Body();
         BodyFixture bodyFixture = new BodyFixture(Geometry.createRectangle(width, height));
         bodyFixture.setFriction(0.3);
-//        bodyFixture.setRestitution(10);
+        bodyFixture.setRestitution(0.6);
+        body.addFixture(bodyFixture);
+        body.setMass(MassType.INFINITE);
+        body.translate(vector2);
+        world.addBody(body);
+        objects.add(new GameObject(imageFile, body, offset, scale));
+        return body;
+    }
+
+    public Body createBodyAndGameObjectBouncy(double width, double height, Vector2 vector2, String imageFile, Vector2 offset, double scale) {
+        Body body = new Body();
+        BodyFixture bodyFixture = new BodyFixture(Geometry.createRectangle(width, height));
+        bodyFixture.setFriction(0.3);
+        bodyFixture.setRestitution(10);
         body.addFixture(bodyFixture);
         body.setMass(MassType.INFINITE);
         body.translate(vector2);

@@ -30,7 +30,8 @@ public class PinballFrame extends FramePart {
 
         Body flipperLeft = new Body();
         BodyFixture bodyFixtureLeft = new BodyFixture(Geometry.createRectangle(13, 2.8));
-        bodyFixtureLeft.setRestitution(1);
+        bodyFixtureLeft.setRestitution(0.6);
+        bodyFixtureLeft.setFriction(0.3);
         flipperLeft.addFixture(bodyFixtureLeft);
         flipperLeft.setMass(MassType.NORMAL);
         flipperLeft.setGravityScale(20);
@@ -45,7 +46,8 @@ public class PinballFrame extends FramePart {
 
         Body flipperRight = new Body();
         BodyFixture bodyFixtureRight = new BodyFixture(Geometry.createRectangle(13, 2.8));
-        bodyFixtureRight.setRestitution(1);
+        bodyFixtureRight.setRestitution(0.6);
+        bodyFixtureRight.setFriction(0.3);
         flipperRight.addFixture(bodyFixtureRight);
         flipperRight.setMass(MassType.NORMAL);
         flipperRight.setGravityScale(20);
@@ -107,20 +109,21 @@ public class PinballFrame extends FramePart {
 //        b.translate(new Vector2(0, 48.5));
 //        world.addBody(b);
 
-
-        createFlippers(leftBottomBody, rightBottomBody);
         createBounceThingies();
+        createFlippers(leftBottomBody, rightBottomBody);
     }
 
     private void createBounceThingies() {
-        Body entryBlock = new Body();
-        BodyFixture entryBlockFixture = new BodyFixture(Geometry.createSquare(5));
-        entryBlockFixture.setRestitution(10);
-        entryBlock.addFixture(entryBlockFixture);
-        entryBlock.setMass(MassType.INFINITE);
-        entryBlock.translate(new Vector2(47.5, -1.5));
-            entryBlock.rotate(1, new Vector2(47.5, -1.5));
-        world.addBody(entryBlock);
+        //block boven launcher
+
+//        Body entryBlock = new Body();
+//        BodyFixture entryBlockFixture = new BodyFixture(Geometry.createSquare(5));
+//        entryBlockFixture.setRestitution(10);
+//        entryBlock.addFixture(entryBlockFixture);
+//        entryBlock.setMass(MassType.INFINITE);
+//        entryBlock.translate(new Vector2(47.5, -1.5));
+        createBodyAndGameObjectBouncy(5,5,new Vector2(47.5, -1.5), "FrameImages/PinBallPowBlock.png", new Vector2(), 0.01).rotate(1.1, new Vector2(47.5, -1.5));
+//        world.addBody(entryBlock);
 
     }
 }
