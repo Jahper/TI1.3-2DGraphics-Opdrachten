@@ -28,6 +28,8 @@ public class Pinball extends Application {
     private PinballFrame pinballFrame;
     private Launcher launcher;
     private Ball ball;
+    private BonusBlocks bonusBlocks;
+    private int score = 0;
 
     public static void main(String[] args) {
         launch(args);
@@ -68,6 +70,7 @@ public class Pinball extends Application {
 
         reset.setOnAction(e -> {
             ball.resetBall();
+            score = 0;
         });
 
 
@@ -106,7 +109,14 @@ public class Pinball extends Application {
         mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 1);
         launcher.update(deltaTime);
         ball.update(deltaTime);
+        //todo sout weghalen
+        int lastScore = score;
+        score += bonusBlocks.checkScore(this.ball);
+        if (score != lastScore) {
+            System.out.println(score);
+        }
         world.update(deltaTime);
+
     }
 
     private void draw(FXGraphics2D g) {
@@ -134,5 +144,8 @@ public class Pinball extends Application {
         //ball
         this.ball = new Ball(world);
         this.gameObjects.addAll(ball.getObjects());
+        //bonusblocks
+        this.bonusBlocks = new BonusBlocks(world);
+        this.gameObjects.addAll(bonusBlocks.getObjects());
     }
 }

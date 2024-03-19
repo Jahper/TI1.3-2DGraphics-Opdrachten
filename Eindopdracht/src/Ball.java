@@ -45,4 +45,8 @@ public class Ball extends FramePart {
             ball.translate(new Vector2(44.5, y));
         }
     }
+
+    public Body getBall() {
+        return ball;
+    }
 }

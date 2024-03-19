@@ -11,6 +11,7 @@ public abstract class FramePart {
     public World world;
 
     public ArrayList<GameObject> objects = new ArrayList<>();
+    public ArrayList<Body> scoreBodies = new ArrayList<>();
 
     public FramePart(World world) {
         this.world = world;
@@ -39,6 +40,7 @@ public abstract class FramePart {
         body.translate(vector2);
         world.addBody(body);
         objects.add(new GameObject(imageFile, body, offset, scale));
+        scoreBodies.add(body);
         return body;
     }
 
