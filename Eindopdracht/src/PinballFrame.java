@@ -24,10 +24,6 @@ public class PinballFrame extends FramePart {
     }
 
     private void createFlippers(Body left, Body right) {
-        //todo voor beide toevoegen aan gameobjects en textures maken
-        //rightBottomBody.isInContact(Body) todo deze methode gebruiken om contact te meten en score op te hogen
-
-
         Body flipperLeft = new Body();
         BodyFixture bodyFixtureLeft = new BodyFixture(Geometry.createRectangle(13, 2.8));
         bodyFixtureLeft.setRestitution(0.6);
@@ -54,7 +50,6 @@ public class PinballFrame extends FramePart {
         flipperRight.setGravityScale(20);
         flipperRight.translate(new Vector2(10.5, 34));
         world.addBody(flipperRight);
-        //todo
         objects.add(new GameObject("FrameImages/piranhaPlantRight.png", flipperRight, new Vector2(), 0.01));
         this.flipperRight = flipperRight;
 
@@ -62,13 +57,10 @@ public class PinballFrame extends FramePart {
         jointRight.setLimitEnabled(true);
         jointRight.setLimits(-0.38, 0.38);
         world.addJoint(jointRight);
-
-
     }
 
     private void createFrame() {
-        //side borders
-        //left
+        //side borders left pt1
         //bottom
         createBodyAndGameObject(4, 30, new Vector2(-37.5, 41), "FrameImages/brickSideMediumLeft.png", new Vector2(-210, 150), 0.012);
 
@@ -83,9 +75,7 @@ public class PinballFrame extends FramePart {
         Body rightBottomBody = createBodyAndGameObject(25, 2.8, new Vector2(28.5, 30), "FrameImages/sidePipePinballRight.png", new Vector2(0, -25), 0.012);
         rightBottomBody.rotate(-0.4, new Vector2(27.5, 30));
 
-
-        //side borders
-        //left
+        //side borders left pt2
         //middle
         createBodyAndGameObject(4, 40, new Vector2(-37.5, -10), "FrameImages/brickAndPipe.png", new Vector2(-30, 200), 0.012);
         //top
@@ -102,31 +92,10 @@ public class PinballFrame extends FramePart {
 
         //upper border
         createBodyAndGameObject(100, 4, new Vector2(0.5, -50), "FrameImages/topBrickLayer.png", new Vector2(-131.5, -230), 0.012);
-        //temporary bottom border for testing
-        //fixme
-//        Body b = new Body();
-//        BodyFixture bf = new BodyFixture(Geometry.createRectangle(200, 1));
-//        bf.setFriction(0.7);
-//        b.addFixture(bf);
-//        b.setMass(MassType.INFINITE);
-//        b.translate(new Vector2(0, 48.5));
-//        world.addBody(b);
 
-        createBounceThingies();
-        createFlippers(leftBottomBody, rightBottomBody);
-    }
-
-    private void createBounceThingies() {
-        //block boven launcher
-
-//        Body entryBlock = new Body();
-//        BodyFixture entryBlockFixture = new BodyFixture(Geometry.createSquare(5));
-//        entryBlockFixture.setRestitution(10);
-//        entryBlock.addFixture(entryBlockFixture);
-//        entryBlock.setMass(MassType.INFINITE);
-//        entryBlock.translate(new Vector2(47.5, -1.5));
+        //pow block
         createBodyAndGameObjectBouncy(5,5,new Vector2(47.5, -1.5), "FrameImages/PinBallPowBlock.png", new Vector2(), 0.01).rotate(1.1, new Vector2(47.5, -1.5));
-//        world.addBody(entryBlock);
 
+        createFlippers(leftBottomBody, rightBottomBody);
     }
 }

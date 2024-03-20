@@ -24,7 +24,7 @@ public class Pinball extends Application {
     private MousePicker mousePicker;
     private World world = new World();
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
-    private boolean debugOn = true;
+    private boolean debugOn = false;
     private PinballFrame pinballFrame;
     private Launcher launcher;
     private Ball ball;
@@ -60,13 +60,13 @@ public class Pinball extends Application {
 
         mousePicker = new MousePicker(canvas);
 
-        radioButton.setOnAction(e -> {
-            if (radioButton.isSelected()) {
-                debugOn = true;
-            } else {
-                debugOn = false;
-            }
-        });
+//        radioButton.setOnAction(e -> {
+//            if (radioButton.isSelected()) {
+//                debugOn = true;
+//            } else {
+//                debugOn = false;
+//            }
+//        });
 
         reset.setOnAction(e -> {
             ball.resetBall();
@@ -75,7 +75,9 @@ public class Pinball extends Application {
 
 
         canvas.setOnMousePressed(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
+            if (event.isShiftDown() && event.getButton() == MouseButton.MIDDLE) {
+                debugOn = !debugOn;
+            } else if (event.getButton() == MouseButton.PRIMARY) {
                 pinballFrame.flipLeft();
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 pinballFrame.flipRight();

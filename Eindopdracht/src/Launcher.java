@@ -18,7 +18,7 @@ public class Launcher extends FramePart {
         //bottom part
         Body bottom = createBodyAndGameObject(4, 4, new Vector2(45, 49), "FrameImages/bottomBrick.png", new Vector2(30, -20), 0.01145);
         Body launchPad = new Body();
-        BodyFixture launchPadFix = new BodyFixture(Geometry.createRectangle(4, 2));
+        BodyFixture launchPadFix = new BodyFixture(Geometry.createRectangle(4, 4));
         launchPadFix.setDensity(1000);
         launchPadFix.setFriction(10000);
         launchPad.addFixture(launchPadFix);
@@ -26,6 +26,7 @@ public class Launcher extends FramePart {
         launchPad.setGravityScale(0);
         launchPad.translate(new Vector2(44.5, 20));
         world.addBody(launchPad);
+        objects.add(new GameObject("FrameImages/spring.png", launchPad, new Vector2(), 0.02));
 
         joint = new PrismaticJoint(launchPad, bottom, new Vector2(45, 10), new Vector2(0, 45));
         joint.setLimitEnabled(true);
