@@ -132,6 +132,20 @@ public class Pinball extends Application {
         if (debugOn) {
             DebugDrawPinball.draw(g, world, 1);
         }
+
+        drawScore(g);
+    }
+
+    private void drawScore(FXGraphics2D g) {
+        g.setColor(Color.BLACK);
+        g.drawString("Score:", 53, -33);
+        String scoreString = score + "";
+
+        if (scoreString.length() > 5) {
+            scoreString = "Rlly?";
+        }
+
+        g.drawString(scoreString, 53, -20);//74 - scorePosCorrection
     }
 
     public void init() {

@@ -37,6 +37,7 @@ public class PinballFrame extends FramePart {
         flipperLeft.setGravityScale(20);
         flipperLeft.translate(new Vector2(-10.5, 34));
         world.addBody(flipperLeft);
+        objects.add(new GameObject("FrameImages/piranhaPlantLeft.png", flipperLeft, new Vector2(), 0.01));
         this.flipperLeft = flipperLeft;
 
         RevoluteJoint jointLeft = new RevoluteJoint(left, flipperLeft, new Vector2(-18, 33.5));
@@ -53,6 +54,8 @@ public class PinballFrame extends FramePart {
         flipperRight.setGravityScale(20);
         flipperRight.translate(new Vector2(10.5, 34));
         world.addBody(flipperRight);
+        //todo
+        objects.add(new GameObject("FrameImages/piranhaPlantRight.png", flipperRight, new Vector2(), 0.01));
         this.flipperRight = flipperRight;
 
         RevoluteJoint jointRight = new RevoluteJoint(right, flipperRight, new Vector2(18, 33.5));
