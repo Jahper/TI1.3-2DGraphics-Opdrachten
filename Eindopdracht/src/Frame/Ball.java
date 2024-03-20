@@ -1,3 +1,5 @@
+package Frame;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
@@ -25,7 +27,7 @@ public class Ball extends FramePart {
         startPos = new Vector2(44.5, 18);
         ball.translate(startPos);
         world.addBody(ball);
-        objects.add(new GameObject("angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0, 0), 0.01));
+        objects.add(new GameObject("FrameImages/angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0, 0), 0.01));
     }
     public void resetBall() {
         ball.translateToOrigin();
@@ -35,9 +37,6 @@ public class Ball extends FramePart {
     }
 
     public void update(double deltaTime) {
-        if (ball.getTransform().getTranslationY() > 60) {
-            resetBall();
-        }
         //houdt ball in het midden
         if (ball.getTransform().getTranslationY() > 15 && ball.getTransform().getTranslationX() > 42.5) {
             double y = ball.getTransform().getTranslationY();

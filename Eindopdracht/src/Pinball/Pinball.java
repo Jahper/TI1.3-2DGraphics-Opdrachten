@@ -1,3 +1,8 @@
+package Pinball;
+
+import Util.*;
+import Frame.*;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,6 +35,7 @@ public class Pinball extends Application {
     private Ball ball;
     private BonusBlocks bonusBlocks;
     private int score = 0;
+    private int lives = 3;
 
     public static void main(String[] args) {
         launch(args);
@@ -111,14 +117,9 @@ public class Pinball extends Application {
         mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 1);
         launcher.update(deltaTime);
         ball.update(deltaTime);
-        //todo sout weghalen
-        int lastScore = score;
+        checkBall();
         score += bonusBlocks.checkScore(this.ball);
-        if (score != lastScore) {
-            System.out.println(score);
-        }
         world.update(deltaTime);
-
     }
 
     private void draw(FXGraphics2D g) {
@@ -136,6 +137,7 @@ public class Pinball extends Application {
         }
 
         drawScore(g);
+        drawLives(g);
     }
 
     private void drawScore(FXGraphics2D g) {
@@ -147,7 +149,24 @@ public class Pinball extends Application {
             scoreString = "Rlly?";
         }
 
-        g.drawString(scoreString, 53, -20);//74 - scorePosCorrection
+        g.drawString(scoreString, 53, -20);
+    }
+
+    private void drawLives(FXGraphics2D g) {
+        g.drawString("Lives:", -90, -33);
+        g.drawString(lives + "", -90, -20);
+    }
+
+    private void checkBall() {
+        if (ball.getBall().getTransform().getTranslationY() > 60) {
+            lives--;
+            ball.resetBall();
+        }
+        if (lives < 1) {
+            //todo game over
+            lives = 3;
+            score = 0;
+        }
     }
 
     public void init() {

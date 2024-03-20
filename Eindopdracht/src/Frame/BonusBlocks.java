@@ -1,8 +1,9 @@
+package Frame;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Vector2;
 
-public class BonusBlocks extends FramePart{
+public class BonusBlocks extends FramePart {
     public BonusBlocks(World world) {
         super(world);
         createBlocks();

@@ -1,3 +1,5 @@
+package Frame;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
