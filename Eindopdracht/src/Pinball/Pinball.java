@@ -34,8 +34,10 @@ public class Pinball extends Application {
     private Launcher launcher;
     private Ball ball;
     private BonusBlocks bonusBlocks;
+    private OneUPShroom oneUPShroom;
     private int score = 0;
     private int lives = 3;
+    private double oneUPTimer = 100;
 
     public static void main(String[] args) {
         launch(args);
@@ -77,6 +79,7 @@ public class Pinball extends Application {
         reset.setOnAction(e -> {
             ball.resetBall();
             score = 0;
+            lives = 3;
         });
 
 
@@ -119,6 +122,14 @@ public class Pinball extends Application {
         ball.update(deltaTime);
         checkBall();
         score += bonusBlocks.checkScore(this.ball);
+
+        int oneUP = oneUPShroom.checkOneUP(this.ball);
+        if (oneUP > 0 && oneUPTimer > 0.5) {
+            score += oneUP;
+            lives++;
+            oneUPTimer = 0;
+        }
+        oneUPTimer += deltaTime;
         world.update(deltaTime);
     }
 
@@ -182,5 +193,8 @@ public class Pinball extends Application {
         //bonusblocks
         this.bonusBlocks = new BonusBlocks(world);
         this.gameObjects.addAll(bonusBlocks.getObjects());
+        //1-up shroom
+        this.oneUPShroom = new OneUPShroom(world);
+        this.gameObjects.addAll(oneUPShroom.getObjects());
     }
 }

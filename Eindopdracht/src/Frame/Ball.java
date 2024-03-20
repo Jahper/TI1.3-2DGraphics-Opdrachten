@@ -19,7 +19,7 @@ public class Ball extends FramePart {
         this.ball = new Body();
         BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.5));
 //        ballFixture.setFriction(0.3);
-        ballFixture.setRestitution(0.2);
+        ballFixture.setRestitution(0);
         ballFixture.setDensity(0.001);
         ball.addFixture(ballFixture);
         ball.setMass(MassType.NORMAL);
