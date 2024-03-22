@@ -38,6 +38,7 @@ public class Pinball extends Application {
     private int score = 0;
     private int lives = 3;
     private double oneUPTimer = 100;
+    private HighScoreWriter highScoreWriter;
 
     public static void main(String[] args) {
         launch(args);
@@ -68,7 +69,9 @@ public class Pinball extends Application {
 
         mousePicker = new MousePicker(canvas);
 
-//        radioButton.setOnAction(e -> {
+        this.highScoreWriter = new HighScoreWriter();
+
+//        radioButton.setOnAction(e -> { fixme weghalen
 //            if (radioButton.isSelected()) {
 //                debugOn = true;
 //            } else {
@@ -149,6 +152,7 @@ public class Pinball extends Application {
 
         drawScore(g);
         drawLives(g);
+        drawHighScores(g);
     }
 
     private void drawScore(FXGraphics2D g) {
@@ -166,6 +170,10 @@ public class Pinball extends Application {
     private void drawLives(FXGraphics2D g) {
         g.drawString("Lives:", -90, -33);
         g.drawString(lives + "", -90, -20);
+    }
+
+    private void drawHighScores(FXGraphics2D g) {
+        g.drawString("Highscores:", 53, -7);
     }
 
     private void checkBall() {
