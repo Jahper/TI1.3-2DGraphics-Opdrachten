@@ -22,6 +22,7 @@ public class Ball extends FramePart {
         ballFixture.setRestitution(0);
         ballFixture.setDensity(0.001);
         ball.addFixture(ballFixture);
+        ball.setBullet(true);
         ball.setMass(MassType.NORMAL);
         ball.setGravityScale(10);
         startPos = new Vector2(44.5, 18);
