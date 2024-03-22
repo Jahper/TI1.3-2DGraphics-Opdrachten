@@ -11,7 +11,16 @@ public class HighScoreWriter {
         this.highScores = getHighScores();
     }
 
-    public void addHighScore(String name, int score) {
+    public boolean checkForNewHighScore(int score) {
+        for (HighScore highScore : highScores) {
+            if (score > highScore.getScore()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addHighScore(String name, int score) {
         HighScore newScore = new HighScore(name, score);
         highScores.add(newScore);
         highScores.sort(highScoreComparator);
