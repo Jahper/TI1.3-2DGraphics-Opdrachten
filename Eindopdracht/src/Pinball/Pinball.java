@@ -90,7 +90,7 @@ public class Pinball extends Application {
 //            ball.resetBall();fixme
 //            score = 0;
 //            lives = 3;
-//            highScorePopUp.getPopup().show(primaryStage);
+            new HighScorePopUp(this, 100).getPopup().show(primaryStage);
 
         });
 
@@ -218,9 +218,9 @@ public class Pinball extends Application {
     }
 
     private void gameOver() {
-        if (!highScoreWriter.checkForNewHighScore(score)) {
-            return;
-        }
+//        if (!highScoreWriter.checkForNewHighScore(score)) {
+//            return;
+//        }
 
         ball.setMassType(MassType.INFINITE);
         HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);

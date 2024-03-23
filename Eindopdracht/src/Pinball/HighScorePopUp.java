@@ -3,15 +3,14 @@ package Pinball;
 import Util.HighScoreWriter;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PopupControl;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Popup;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import org.dyn4j.geometry.MassType;
+
+import java.util.function.UnaryOperator;
 
 public class HighScorePopUp {
     private Popup popup;
@@ -35,6 +34,17 @@ public class HighScorePopUp {
 
         popup.getContent().add(borderPane);
 
+        //maakt text in textfield maximaal x lang
+        UnaryOperator<TextFormatter.Change> rejectChange = change -> {
+            if (change.isContentChange()) {
+                if (change.getControlNewText().length() > 4) {
+                    return null;
+                }
+            }
+            return change;
+        };
+
+        textField.setTextFormatter(new TextFormatter(rejectChange));
 
         okButton.setOnAction(e -> {
             if (!textField.getText().isEmpty()) {
