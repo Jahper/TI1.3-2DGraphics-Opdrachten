@@ -1,13 +1,9 @@
 package Pinball;
 
 import Util.HighScoreWriter;
-import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
-import javafx.stage.Stage;
 import org.dyn4j.geometry.MassType;
 
 import java.util.function.UnaryOperator;

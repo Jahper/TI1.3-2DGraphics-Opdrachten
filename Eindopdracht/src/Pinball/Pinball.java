@@ -218,9 +218,9 @@ public class Pinball extends Application {
     }
 
     private void gameOver() {
-//        if (!highScoreWriter.checkForNewHighScore(score)) {
-//            return;
-//        }
+        if (!highScoreWriter.checkForNewHighScore(score)) {
+            return;
+        }
 
         ball.setMassType(MassType.INFINITE);
         HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);
