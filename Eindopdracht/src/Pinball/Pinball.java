@@ -39,6 +39,7 @@ public class Pinball extends Application {
     private int lives = 3;
     private double oneUPTimer = 100;
     private HighScoreWriter highScoreWriter;
+    private HighScorePopUp highScorePopUp;
 
     public static void main(String[] args) {
         launch(args);
@@ -71,6 +72,8 @@ public class Pinball extends Application {
 
         this.highScoreWriter = new HighScoreWriter();
 
+        this.highScorePopUp = new HighScorePopUp(this);
+
 //        radioButton.setOnAction(e -> { fixme weghalen
 //            if (radioButton.isSelected()) {
 //                debugOn = true;
@@ -80,9 +83,11 @@ public class Pinball extends Application {
 //        });
 
         reset.setOnAction(e -> {
-            ball.resetBall();
-            score = 0;
-            lives = 3;
+//            ball.resetBall();fixme
+//            score = 0;
+//            lives = 3;
+            highScorePopUp.getPopup().show(primaryStage);
+
         });
 
 
@@ -204,5 +209,9 @@ public class Pinball extends Application {
         //1-up shroom
         this.oneUPShroom = new OneUPShroom(world);
         this.gameObjects.addAll(oneUPShroom.getObjects());
+    }
+
+    public HighScoreWriter getHighScoreWriter() {
+        return highScoreWriter;
     }
 }
