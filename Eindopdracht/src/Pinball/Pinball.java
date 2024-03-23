@@ -7,7 +7,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -206,11 +205,12 @@ public class Pinball extends Application {
     }
 
     private void gameOver() {
+        ball.setMassType(MassType.INFINITE);
         if (!highScoreWriter.checkForNewHighScore(score)) {
+            //todo game over popup toevoegen
             return;
         }
 
-        ball.setMassType(MassType.INFINITE);
         HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);
         Popup popup = highScorePopUp.getPopup();
         popup.show(primarysStage);
