@@ -57,11 +57,9 @@ public class Pinball extends Application {
 
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
 
-        RadioButton radioButton = new RadioButton("debug");
-
         Button reset = new Button("reset");
 
-        HBox topBar = new HBox(radioButton, reset);
+        HBox topBar = new HBox(reset);
 
         mainPane.setCenter(canvas);
         mainPane.setTop(topBar);
@@ -75,16 +73,6 @@ public class Pinball extends Application {
         mousePicker = new MousePicker(canvas);
 
         this.highScoreWriter = new HighScoreWriter();
-
-
-
-//        radioButton.setOnAction(e -> { fixme weghalen
-//            if (radioButton.isSelected()) {
-//                debugOn = true;
-//            } else {
-//                debugOn = false;
-//            }
-//        });
 
         reset.setOnAction(e -> {
 //            ball.resetBall();fixme
