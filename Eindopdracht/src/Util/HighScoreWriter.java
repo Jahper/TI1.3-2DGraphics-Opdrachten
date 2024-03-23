@@ -20,7 +20,7 @@ public class HighScoreWriter {
         return false;
     }
 
-    private void addHighScore(String name, int score) {
+    public void addHighScore(String name, int score) {
         HighScore newScore = new HighScore(name, score);
         highScores.add(newScore);
         highScores.sort(highScoreComparator);
@@ -34,7 +34,7 @@ public class HighScoreWriter {
 
     public List<HighScore> getHighScores() {
         try {
-            FileInputStream fileInputStream = new FileInputStream("Eindopdracht/src/Util/HighScores.txt");
+            FileInputStream fileInputStream = new FileInputStream("Eindopdracht/src/Util/HighScores.obj");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
             highScores.clear();
@@ -52,7 +52,7 @@ public class HighScoreWriter {
 
     private void writeToFile() {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("Eindopdracht/src/Util/HighScores.txt");
+            FileOutputStream fileOutputStream = new FileOutputStream("Eindopdracht/src/Util/HighScores.obj");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
             for (HighScore highScore : highScores) {
@@ -63,6 +63,12 @@ public class HighScoreWriter {
         } catch (Exception e) {
             System.out.println("Bestand niet gevonden :(");
             e.printStackTrace();
+        }
+    }
+
+    public void printScores() {
+        for (HighScore highScore : highScores) {
+            System.out.println(highScore);
         }
     }
 

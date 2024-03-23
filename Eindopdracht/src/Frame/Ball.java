@@ -49,4 +49,8 @@ public class Ball extends FramePart {
     public Body getBall() {
         return ball;
     }
+
+    public void setMassType(MassType massType) {
+        this.ball.setMass(massType);
+    }
 }

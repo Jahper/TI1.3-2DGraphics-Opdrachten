@@ -11,7 +11,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.dyn4j.geometry.MassType;
 import org.jfree.fx.ResizableCanvas;
 
 import org.dyn4j.dynamics.World;
@@ -24,6 +26,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class Pinball extends Application {
+    private Stage primarysStage;
     private ResizableCanvas canvas;
     private Camera camera;
     private MousePicker mousePicker;
@@ -39,7 +42,6 @@ public class Pinball extends Application {
     private int lives = 3;
     private double oneUPTimer = 100;
     private HighScoreWriter highScoreWriter;
-    private HighScorePopUp highScorePopUp;
 
     public static void main(String[] args) {
         launch(args);
@@ -47,6 +49,8 @@ public class Pinball extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.primarysStage = primaryStage;
+
         BorderPane mainPane = new BorderPane();
 
         world.setGravity(new Vector2(0, 9.8));
@@ -72,7 +76,7 @@ public class Pinball extends Application {
 
         this.highScoreWriter = new HighScoreWriter();
 
-        this.highScorePopUp = new HighScorePopUp(this);
+
 
 //        radioButton.setOnAction(e -> { fixme weghalen
 //            if (radioButton.isSelected()) {
@@ -86,7 +90,7 @@ public class Pinball extends Application {
 //            ball.resetBall();fixme
 //            score = 0;
 //            lives = 3;
-            highScorePopUp.getPopup().show(primaryStage);
+//            highScorePopUp.getPopup().show(primaryStage);
 
         });
 
@@ -188,8 +192,10 @@ public class Pinball extends Application {
         }
         if (lives < 1) {
             //todo game over
+            gameOver();
             lives = 3;
             score = 0;
+            highScoreWriter.printScores();
         }
     }
 
@@ -211,7 +217,22 @@ public class Pinball extends Application {
         this.gameObjects.addAll(oneUPShroom.getObjects());
     }
 
+    private void gameOver() {
+        if (!highScoreWriter.checkForNewHighScore(score)) {
+            return;
+        }
+
+        ball.setMassType(MassType.INFINITE);
+        HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);
+        Popup popup = highScorePopUp.getPopup();
+        popup.show(primarysStage);
+    }
+
     public HighScoreWriter getHighScoreWriter() {
         return highScoreWriter;
+    }
+
+    public Ball getBall() {
+        return ball;
     }
 }
