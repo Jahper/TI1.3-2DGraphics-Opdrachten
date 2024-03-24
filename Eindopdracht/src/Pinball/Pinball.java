@@ -39,6 +39,7 @@ public class Pinball extends Application {
     private OneUPShroom oneUPShroom;
     private int score = 0;
     private int lives = 3;
+    private boolean gameOver = false;
     private double oneUPTimer = 100;
     private HighScoreWriter highScoreWriter;
 
@@ -178,8 +179,9 @@ public class Pinball extends Application {
             ball.resetBall();
         }
         if (lives < 1) {
-            //todo game over
             gameOver();
+            gameOver = true;
+            //todo game over schermpje tonen
             lives = 3;
             score = 0;
             highScoreWriter.printScores();
