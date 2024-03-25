@@ -22,6 +22,8 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Pinball extends Application {
@@ -39,9 +41,9 @@ public class Pinball extends Application {
     private OneUPShroom oneUPShroom;
     private int score = 0;
     private int lives = 3;
-    private boolean gameOver = false;
     private double oneUPTimer = 100;
     private HighScoreWriter highScoreWriter;
+    private GameOverPopUp gameOverPopUp;
 
     public static void main(String[] args) {
         launch(args);
@@ -49,7 +51,7 @@ public class Pinball extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.primarysStage = primaryStage;
+        primarysStage = primaryStage;
 
         BorderPane mainPane = new BorderPane();
 
@@ -66,13 +68,15 @@ public class Pinball extends Application {
 
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
-        this.camera = new Camera(canvas, g -> draw(g), g2d);
+        camera = new Camera(canvas, g -> draw(g), g2d);
 
         camera.setZoom(10);
 
         mousePicker = new MousePicker(canvas);
 
-        this.highScoreWriter = new HighScoreWriter();
+        highScoreWriter = new HighScoreWriter();
+
+        gameOverPopUp = new GameOverPopUp();
 
         reset.setOnAction(e -> {
 //            ball.resetBall();fixme
@@ -84,12 +88,18 @@ public class Pinball extends Application {
 
 
         canvas.setOnMousePressed(event -> {
-            if (event.isShiftDown() && event.getButton() == MouseButton.MIDDLE) {
-                debugOn = !debugOn;
-            } else if (event.getButton() == MouseButton.PRIMARY) {
-                pinballFrame.flipLeft();
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                pinballFrame.flipRight();
+            if (!gameOverPopUp.getPopup().isShowing()) {
+                if (event.isShiftDown() && event.getButton() == MouseButton.MIDDLE) {
+                    debugOn = !debugOn;
+                } else if (event.getButton() == MouseButton.PRIMARY) {
+                    pinballFrame.flipLeft();
+                } else if (event.getButton() == MouseButton.SECONDARY) {
+                    pinballFrame.flipRight();
+                }
+            } else {
+                //todo game over schermpje weghalen
+                gameOverPopUp.getPopup().hide();
+                ball.setMassType(MassType.NORMAL);
             }
         });
         new AnimationTimer() {
@@ -154,6 +164,15 @@ public class Pinball extends Application {
 
     private void drawScore(FXGraphics2D g) {
         g.setColor(Color.BLACK);
+        Font font = new Font("Arial", Font.PLAIN, 10);
+//        try {
+//            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("MiscFiles/Super Retro Italic M54.ttf"));
+//        } catch (FontFormatException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        g.setFont(font);
         g.drawString("Score:", 53, -33);
         String scoreString = score + "";
 
@@ -180,11 +199,9 @@ public class Pinball extends Application {
         }
         if (lives < 1) {
             gameOver();
-            gameOver = true;
-            //todo game over schermpje tonen
+            highScoreWriter.printScores();
             lives = 3;
             score = 0;
-            highScoreWriter.printScores();
         }
     }
 
@@ -210,6 +227,7 @@ public class Pinball extends Application {
         ball.setMassType(MassType.INFINITE);
         if (!highScoreWriter.checkForNewHighScore(score)) {
             //todo game over popup toevoegen
+            gameOverPopUp.getPopup().show(primarysStage);
             return;
         }
 
