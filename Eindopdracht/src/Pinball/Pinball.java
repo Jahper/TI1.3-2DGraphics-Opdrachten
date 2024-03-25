@@ -113,15 +113,18 @@ public class Pinball extends Application {
         mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 1);
         launcher.update(deltaTime);
         ball.update(deltaTime);
-        checkBall();
-        score += bonusBlocks.checkScore(this.ball);
 
+        checkBall();
+
+        score += bonusBlocks.checkScore(this.ball);
         int oneUP = oneUPShroom.checkOneUP(this.ball);
+
         if (oneUP > 0 && oneUPTimer > 0.5) {
             score += oneUP;
             lives++;
             oneUPTimer = 0;
         }
+
         oneUPTimer += deltaTime;
         world.update(deltaTime);
     }
@@ -136,6 +139,7 @@ public class Pinball extends Application {
         for (GameObject gameObject : gameObjects) {
             gameObject.draw(g);
         }
+
         if (debugOn) {
             DebugDrawPinball.draw(g, world, 1);
         }
