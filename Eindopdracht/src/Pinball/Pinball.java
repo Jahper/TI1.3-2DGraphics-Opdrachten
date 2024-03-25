@@ -25,6 +25,7 @@ import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Pinball extends Application {
     private Stage primarysStage;
@@ -50,7 +51,7 @@ public class Pinball extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primarysStage = primaryStage;
 
         BorderPane mainPane = new BorderPane();
@@ -164,15 +165,10 @@ public class Pinball extends Application {
 
     private void drawScore(FXGraphics2D g) {
         g.setColor(Color.BLACK);
-        Font font = new Font("Arial", Font.PLAIN, 10);
-//        try {
-//            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("MiscFiles/Super Retro Italic M54.ttf"));
-//        } catch (FontFormatException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+
+        Font font = new Font("Unispace", Font.PLAIN, 10);
         g.setFont(font);
+
         g.drawString("Score:", 53, -33);
         String scoreString = score + "";
 
@@ -189,7 +185,18 @@ public class Pinball extends Application {
     }
 
     private void drawHighScores(FXGraphics2D g) {
-        g.drawString("Highscores:", 53, -7);
+        Font font = new Font("Unispace", Font.PLAIN, 7);
+        g.setFont(font);
+
+        g.drawString("Top Scores", 53, -7);
+
+        Font fontMini = new Font("Unispace", Font.PLAIN, 5);
+        g.setFont(fontMini);
+
+        List<HighScore> highScoreList = highScoreWriter.getHighScores();
+        for (int i = 0; i < highScoreList.size(); i++) {
+            g.drawString(highScoreList.get(i).toString(), 53, i * 5);
+        }
     }
 
     private void checkBall() {
@@ -226,7 +233,6 @@ public class Pinball extends Application {
     private void gameOver() {
         ball.setMassType(MassType.INFINITE);
         if (!highScoreWriter.checkForNewHighScore(score)) {
-            //todo game over popup toevoegen
             gameOverPopUp.getPopup().show(primarysStage);
             return;
         }

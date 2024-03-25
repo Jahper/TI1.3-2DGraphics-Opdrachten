@@ -21,7 +21,7 @@ public class HighScoreWriter {
     }
 
     public void addHighScore(String name, int score) {
-        HighScore newScore = new HighScore(name, score);
+        HighScore newScore = new HighScore(correctedName(name), score);
         highScores.add(newScore);
         highScores.sort(highScoreComparator);
 
@@ -64,6 +64,19 @@ public class HighScoreWriter {
             System.out.println("Bestand niet gevonden :(");
             e.printStackTrace();
         }
+    }
+    //methode voor evenredige spacing op highscore lijst
+    private String correctedName(String name) {
+        if (name.length() == 4) {
+            return name;
+        }
+
+        int correctionLenth = 4 - name.length();
+
+        for (int i = 0; i < correctionLenth; i++) {
+            name += " ";
+        }
+        return name;
     }
 
     public void printScores() {

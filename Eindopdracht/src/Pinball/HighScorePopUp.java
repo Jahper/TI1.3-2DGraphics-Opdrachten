@@ -40,7 +40,7 @@ public class HighScorePopUp {
             return change;
         };
 
-        textField.setTextFormatter(new TextFormatter(rejectChange));
+        textField.setTextFormatter(new TextFormatter<>(rejectChange));
 
         okButton.setOnAction(e -> {
             if (!textField.getText().isEmpty()) {
