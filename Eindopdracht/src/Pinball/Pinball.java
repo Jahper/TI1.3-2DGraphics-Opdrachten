@@ -6,10 +6,8 @@ import Frame.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.dyn4j.geometry.MassType;
@@ -22,8 +20,6 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,12 +56,7 @@ public class Pinball extends Application {
 
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
 
-        Button reset = new Button("reset");
-
-        HBox topBar = new HBox(reset);
-
         mainPane.setCenter(canvas);
-        mainPane.setTop(topBar);
 
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
@@ -78,15 +69,6 @@ public class Pinball extends Application {
         highScoreWriter = new HighScoreWriter();
 
         gameOverPopUp = new GameOverPopUp();
-
-        reset.setOnAction(e -> {
-//            ball.resetBall();fixme
-//            score = 0;
-//            lives = 3;
-            new HighScorePopUp(this, 100).getPopup().show(primaryStage);
-
-        });
-
 
         canvas.setOnMousePressed(event -> {
             if (!gameOverPopUp.getPopup().isShowing()) {
@@ -172,10 +154,6 @@ public class Pinball extends Application {
         g.drawString("Score:", 53, -33);
         String scoreString = score + "";
 
-        if (scoreString.length() > 5) {
-            scoreString = "Rlly?";
-        }
-
         g.drawString(scoreString, 53, -20);
     }
 
@@ -195,7 +173,7 @@ public class Pinball extends Application {
 
         List<HighScore> highScoreList = highScoreWriter.getHighScores();
         for (int i = 0; i < highScoreList.size(); i++) {
-            g.drawString(highScoreList.get(i).toString(), 53, i * 5);
+            g.drawString(highScoreList.get(i).toString(), 53, i * 6);
         }
     }
 

@@ -71,9 +71,9 @@ public class HighScoreWriter {
             return name;
         }
 
-        int correctionLenth = 4 - name.length();
+        int correctionLength = 4 - name.length();
 
-        for (int i = 0; i < correctionLenth; i++) {
+        for (int i = 0; i < correctionLength; i++) {
             name += " ";
         }
         return name;

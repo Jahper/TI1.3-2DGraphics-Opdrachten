@@ -8,7 +8,6 @@ public class GameOverPopUp {
     private Popup popup;
 
     public GameOverPopUp() {
-        //todo game over plaatje toevoegen
         this.popup = new Popup();
         setPopupContent();
     }
