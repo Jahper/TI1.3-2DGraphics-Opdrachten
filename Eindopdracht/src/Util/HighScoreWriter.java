@@ -86,23 +86,23 @@ public class HighScoreWriter {
     }
 
 
-//    public static void main(String[] args) {//fixme weghalen
-//        HighScoreWriter f = new HighScoreWriter();
-////        f.addHighScore("bob", 11);
-////        f.addHighScore("bob", 9);
-////        f.addHighScore("bob", 11);
-////        f.addHighScore("bob", 23);
-////        f.addHighScore("bob", 411);
-////        f.addHighScore("bob", 100);
-//        f.addHighScore("-", 0);
-//        f.addHighScore("-", 0);
-//        f.addHighScore("-", 0);
-//        f.addHighScore("-", 0);
-//        f.addHighScore("-", 0);
-//        for (HighScore highScore : f.getHighScores()) {
-//            System.out.println(highScore.getName() + " : " + highScore.getScore());
-//        }
-//    }
+    public static void main(String[] args) {//fixme weghalen
+        HighScoreWriter f = new HighScoreWriter();
+//        f.addHighScore("bob", 11);
+//        f.addHighScore("bob", 9);
+//        f.addHighScore("bob", 11);
+//        f.addHighScore("bob", 23);
+//        f.addHighScore("bob", 411);
+//        f.addHighScore("bob", 100);
+        f.addHighScore("-", 0);
+        f.addHighScore("-", 0);
+        f.addHighScore("-", 0);
+        f.addHighScore("-", 0);
+        f.addHighScore("-", 0);
+        for (HighScore highScore : f.getHighScores()) {
+            System.out.println(highScore.toString());
+        }
+    }
 
     public class HighScoreComparator implements Comparator<HighScore> {
         @Override
