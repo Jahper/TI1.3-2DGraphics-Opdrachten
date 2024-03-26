@@ -152,7 +152,7 @@ public class Pinball extends Application {
     private void drawScore(FXGraphics2D g) {
         g.setColor(Color.BLACK);
 
-        Font font = new Font("Unispace", Font.PLAIN, 10);
+        Font font = new Font("Berlin Sans FB", Font.PLAIN, 10);
         g.setFont(font);
 
         g.drawString("Score:", 53, -33);
@@ -167,12 +167,12 @@ public class Pinball extends Application {
     }
 
     private void drawHighScores(FXGraphics2D g) {
-        Font font = new Font("Unispace", Font.PLAIN, 7);
+        Font font = new Font("Berlin Sans FB", Font.PLAIN, 7);
         g.setFont(font);
 
         g.drawString("Top Scores", 53, -7);
 
-        Font fontMini = new Font("Unispace", Font.PLAIN, 5);
+        Font fontMini = new Font("Berlin Sans FB", Font.PLAIN, 5);
         g.setFont(fontMini);
 
         List<HighScore> highScoreList = highScoreWriter.getHighScores();

@@ -27,10 +27,10 @@ public class HighScorePopUp {
         Label labelHS = new Label("New Highscore!");
         Label label = new Label("Enter your name:");
 
-        Font fontHS = new Font("Unispace", 50);
+        Font fontHS = new Font("Berlin Sans FB", 50);
         labelHS.setFont(fontHS);
 
-        Font font = new Font("Unispace", 15);
+        Font font = new Font("Berlin Sans FB", 15);
         label.setFont(font);
 
         VBox labelBox = new VBox(labelHS, label);
