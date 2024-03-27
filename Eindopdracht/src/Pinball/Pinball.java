@@ -47,6 +47,7 @@ public class Pinball extends Application {
     private HighScorePopUp highScorePopUp;
     private Font font;
     private boolean gameOver = false;
+    private BufferedImage background;
 
     public static void main(String[] args) {
         launch(args);
@@ -146,17 +147,14 @@ public class Pinball extends Application {
         g.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         g.setTransform(camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()));
 
-
-//        try {
-//            BufferedImage image = ImageIO.read(getClass().getResource("Frame/FrameImages/marioBackground.png"));
-//            g.drawImage(image, new AffineTransform(), null);
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
         g.setBackground(Color.WHITE);
         g.setColor(Color.BLUE);
+
+        AffineTransform tx = new AffineTransform();
+        tx.translate(-canvas.getWidth() / 17, -canvas.getHeight() / 13);
+        tx.scale(0.21, 0.21);
+
+        g.drawImage(background, tx, null);
 
         for (GameObject gameObject : gameObjects) {
             gameObject.draw(g);
@@ -224,17 +222,23 @@ public class Pinball extends Application {
         this.gameObjects.addAll(oneUPShroom.getObjects());
         //font
         this.font = getFont(10);
+        //background
+        try {
+            background = ImageIO.read(getClass().getResource("MarioBG2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void gameOver() {
         ball.setMassType(MassType.INFINITE);
         gameOver = true;
+
         if (!highScoreWriter.checkForNewHighScore(score)) {
             gameOverPopUp.getPopup().show(primarysStage);
             return;
         }
 
-//        HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);
         Popup popup = highScorePopUp.getPopup(score);
         popup.show(primarysStage);
     }
