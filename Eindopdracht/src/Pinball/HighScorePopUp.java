@@ -11,6 +11,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import org.dyn4j.geometry.MassType;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.function.UnaryOperator;
 
 public class HighScorePopUp {
@@ -28,9 +32,9 @@ public class HighScorePopUp {
         Label label = new Label("Enter your name:");
 
         Font fontHS = new Font("Berlin Sans FB", 50);
-        labelHS.setFont(fontHS);
+        labelHS.setFont(getFontFX(50));
 
-        Font font = new Font("Berlin Sans FB", 15);
+        Font font = getFontFX(15);
         label.setFont(font);
 
         VBox labelBox = new VBox(labelHS, label);
@@ -70,6 +74,16 @@ public class HighScorePopUp {
                 writer.printScores();
             }
         });
+    }
+
+    public javafx.scene.text.Font getFontFX(double size) {
+        try {
+            InputStream input = new BufferedInputStream(new FileInputStream("Eindopdracht/src/Frame/MiscFiles/unispace bd.ttf"));
+            javafx.scene.text.Font font = javafx.scene.text.Font.loadFont(input, size);
+            return font;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

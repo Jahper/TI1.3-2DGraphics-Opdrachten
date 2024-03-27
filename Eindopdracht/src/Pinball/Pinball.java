@@ -20,6 +20,7 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class Pinball extends Application {
     private double oneUPTimer = 100;
     private HighScoreWriter highScoreWriter;
     private GameOverPopUp gameOverPopUp;
+    public Font font;
 
     public static void main(String[] args) {
         launch(args);
@@ -152,13 +154,9 @@ public class Pinball extends Application {
     private void drawScore(FXGraphics2D g) {
         g.setColor(Color.BLACK);
 
-        Font font = new Font("Berlin Sans FB", Font.PLAIN, 10);
-        g.setFont(font);
-
+        g.setFont(font.deriveFont(10f));
         g.drawString("Score:", 53, -33);
-        String scoreString = score + "";
-
-        g.drawString(scoreString, 53, -20);
+        g.drawString(score + "", 53, -20);
     }
 
     private void drawLives(FXGraphics2D g) {
@@ -167,14 +165,10 @@ public class Pinball extends Application {
     }
 
     private void drawHighScores(FXGraphics2D g) {
-        Font font = new Font("Berlin Sans FB", Font.PLAIN, 7);
-        g.setFont(font);
-
+        g.setFont(font.deriveFont(7f));
         g.drawString("Top Scores", 53, -7);
 
-        Font fontMini = new Font("Berlin Sans FB", Font.PLAIN, 5);
-        g.setFont(fontMini);
-
+        g.setFont(font.deriveFont(5f));
         List<HighScore> highScoreList = highScoreWriter.getHighScores();
         for (int i = 0; i < highScoreList.size(); i++) {
             g.drawString(highScoreList.get(i).toString(), 53, i * 6);
@@ -210,6 +204,8 @@ public class Pinball extends Application {
         //1-up shroom
         this.oneUPShroom = new OneUPShroom(world);
         this.gameObjects.addAll(oneUPShroom.getObjects());
+        //font
+        this.font = getFont(10);
     }
 
     private void gameOver() {
@@ -222,6 +218,16 @@ public class Pinball extends Application {
         HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);
         Popup popup = highScorePopUp.getPopup();
         popup.show(primarysStage);
+    }
+
+    public Font getFont(float size) {
+        try {
+            InputStream input = new BufferedInputStream(new FileInputStream("Eindopdracht/src/Frame/MiscFiles/unispace bd.ttf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, input).deriveFont(size);
+            return font;
+        } catch (FontFormatException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public HighScoreWriter getHighScoreWriter() {
