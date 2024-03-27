@@ -17,9 +17,11 @@ import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class Pinball extends Application {
     private double oneUPTimer = 100;
     private HighScoreWriter highScoreWriter;
     private GameOverPopUp gameOverPopUp;
+    private HighScorePopUp highScorePopUp;
     private Font font;
     private boolean gameOver = false;
 
@@ -73,6 +76,8 @@ public class Pinball extends Application {
 
         gameOverPopUp = new GameOverPopUp();
 
+        highScorePopUp = new HighScorePopUp(this);
+
         canvas.setOnMousePressed(event -> {
             if (!gameOver) {
                 if (event.isShiftDown() && event.getButton() == MouseButton.MIDDLE) {
@@ -83,10 +88,10 @@ public class Pinball extends Application {
                     pinballFrame.flipRight();
                 }
             } else {
-                //todo game over schermpje weghalen
-                gameOverPopUp.getPopup().hide();
-                resetLivesAndScore();
-                ball.setMassType(MassType.NORMAL);
+                if (!highScorePopUp.getPopup(score).isShowing()) {
+                    gameOverPopUp.getPopup().hide();
+                    resetLivesAndScore();
+                }
             }
         });
         new AnimationTimer() {
@@ -137,12 +142,19 @@ public class Pinball extends Application {
     }
 
     private void draw(FXGraphics2D g) {
-//        if (gameOver) {
-//            return;
-//        }
         g.setTransform(new AffineTransform());
         g.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         g.setTransform(camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()));
+
+
+//        try {
+//            BufferedImage image = ImageIO.read(getClass().getResource("Frame/FrameImages/marioBackground.png"));
+//            g.drawImage(image, new AffineTransform(), null);
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
         g.setBackground(Color.WHITE);
         g.setColor(Color.BLUE);
 
@@ -191,8 +203,6 @@ public class Pinball extends Application {
         if (lives < 1) {
             gameOver();
             highScoreWriter.printScores();
-//            lives = 3;
-//            score = 0;
         }
     }
 
@@ -224,8 +234,8 @@ public class Pinball extends Application {
             return;
         }
 
-        HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);
-        Popup popup = highScorePopUp.getPopup();
+//        HighScorePopUp highScorePopUp = new HighScorePopUp(this, score);
+        Popup popup = highScorePopUp.getPopup(score);
         popup.show(primarysStage);
     }
 
@@ -243,6 +253,7 @@ public class Pinball extends Application {
         this.lives = 3;
         this.score = 0;
         this.gameOver = false;
+        this.ball.setMassType(MassType.NORMAL);
     }
 
     public HighScoreWriter getHighScoreWriter() {

@@ -20,8 +20,9 @@ import java.util.function.UnaryOperator;
 public class HighScorePopUp {
     private Popup popup;
     private Pinball pinball;
+    private int score = 0;
 
-    public HighScorePopUp(Pinball pinball, int score) {
+    public HighScorePopUp(Pinball pinball) {
         //todo mooi in het midden zetten
         this.pinball = pinball;
         this.popup = new Popup();
@@ -87,7 +88,8 @@ public class HighScorePopUp {
     }
 
 
-    public Popup getPopup() {
+    public Popup getPopup(int score) {
+        this.score = score;
         return popup;
     }
 }
