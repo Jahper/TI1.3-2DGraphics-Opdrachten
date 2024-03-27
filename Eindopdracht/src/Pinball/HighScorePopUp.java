@@ -31,7 +31,6 @@ public class HighScorePopUp {
         Label labelHS = new Label("New Highscore!");
         Label label = new Label("Enter your name:");
 
-        Font fontHS = new Font("Berlin Sans FB", 50);
         labelHS.setFont(getFontFX(50));
 
         Font font = getFontFX(15);
@@ -71,6 +70,7 @@ public class HighScorePopUp {
                 writer.addHighScore(textField.getText(), score);
                 popup.hide();
                 pinball.getBall().setMassType(MassType.NORMAL);
+                pinball.resetLivesAndScore();
                 writer.printScores();
             }
         });

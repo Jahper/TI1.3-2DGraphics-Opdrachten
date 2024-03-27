@@ -42,7 +42,8 @@ public class Pinball extends Application {
     private double oneUPTimer = 100;
     private HighScoreWriter highScoreWriter;
     private GameOverPopUp gameOverPopUp;
-    public Font font;
+    private Font font;
+    private boolean gameOver = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -73,7 +74,7 @@ public class Pinball extends Application {
         gameOverPopUp = new GameOverPopUp();
 
         canvas.setOnMousePressed(event -> {
-            if (!gameOverPopUp.getPopup().isShowing()) {
+            if (!gameOver) {
                 if (event.isShiftDown() && event.getButton() == MouseButton.MIDDLE) {
                     debugOn = !debugOn;
                 } else if (event.getButton() == MouseButton.PRIMARY) {
@@ -84,6 +85,7 @@ public class Pinball extends Application {
             } else {
                 //todo game over schermpje weghalen
                 gameOverPopUp.getPopup().hide();
+                resetLivesAndScore();
                 ball.setMassType(MassType.NORMAL);
             }
         });
@@ -112,6 +114,9 @@ public class Pinball extends Application {
     }
 
     private void update(double deltaTime) {
+        if (gameOver) {
+            return;
+        }
         mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 1);
         launcher.update(deltaTime);
         ball.update(deltaTime);
@@ -132,6 +137,9 @@ public class Pinball extends Application {
     }
 
     private void draw(FXGraphics2D g) {
+//        if (gameOver) {
+//            return;
+//        }
         g.setTransform(new AffineTransform());
         g.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         g.setTransform(camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()));
@@ -183,8 +191,8 @@ public class Pinball extends Application {
         if (lives < 1) {
             gameOver();
             highScoreWriter.printScores();
-            lives = 3;
-            score = 0;
+//            lives = 3;
+//            score = 0;
         }
     }
 
@@ -210,6 +218,7 @@ public class Pinball extends Application {
 
     private void gameOver() {
         ball.setMassType(MassType.INFINITE);
+        gameOver = true;
         if (!highScoreWriter.checkForNewHighScore(score)) {
             gameOverPopUp.getPopup().show(primarysStage);
             return;
@@ -228,6 +237,12 @@ public class Pinball extends Application {
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void resetLivesAndScore() {
+        this.lives = 3;
+        this.score = 0;
+        this.gameOver = false;
     }
 
     public HighScoreWriter getHighScoreWriter() {
