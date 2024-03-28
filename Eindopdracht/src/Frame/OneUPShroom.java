@@ -16,14 +16,14 @@ public class OneUPShroom extends FramePart {
 
     private void createShroom() {
         this.shroom = new Body();
-        BodyFixture shroomFix = new BodyFixture(Geometry.createCircle(2.5));
+        BodyFixture shroomFix = new BodyFixture(Geometry.createCircle(2.7));
         shroomFix.setRestitution(0);
         shroom.addFixture(shroomFix);
         shroom.setMass(MassType.INFINITE);
         shroom.translate(-45, -34);
         shroom.rotate(0.5 * Math.PI, new Vector2(-45, -34));
         world.addBody(shroom);
-        objects.add(new GameObject("FrameImages/1UP.png", shroom, new Vector2(), 0.025));
+        objects.add(new GameObject("FrameImages/1UP.png", shroom, new Vector2(), 0.023));
     }
 
     public int checkOneUP(Ball ball) {
