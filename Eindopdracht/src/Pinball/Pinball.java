@@ -48,7 +48,6 @@ public class Pinball extends Application {
     private Font font;
     private boolean gameOver = false;
     private BufferedImage background;
-
     public static void main(String[] args) {
         launch(args);
     }

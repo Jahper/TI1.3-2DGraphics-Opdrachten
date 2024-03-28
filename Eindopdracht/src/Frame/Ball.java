@@ -17,7 +17,7 @@ public class Ball extends FramePart {
 
     private void createBall() {
         this.ball = new Body();
-        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.5));
+        BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.9));
 //        ballFixture.setFriction(0.3);
         ballFixture.setRestitution(0);
         ballFixture.setDensity(0.001);
@@ -28,7 +28,7 @@ public class Ball extends FramePart {
         startPos = new Vector2(44.5, 18);
         ball.translate(startPos);
         world.addBody(ball);
-        objects.add(new GameObject("FrameImages/angry-bird-red-image-angry-birds-transparent-png-1637889.png", ball, new Vector2(0, 0), 0.01));
+        objects.add(new GameObject("MiscFiles/MarioShroom.png", ball, new Vector2(0, 0), 0.01));
     }
     public void resetBall() {
         ball.translateToOrigin();
