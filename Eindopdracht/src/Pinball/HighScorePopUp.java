@@ -75,6 +75,17 @@ public class HighScorePopUp {
                 writer.printScores();
             }
         });
+
+        textField.setOnAction(event -> {
+            if (!textField.getText().isEmpty()) {
+                HighScoreWriter writer = pinball.getHighScoreWriter();
+                writer.addHighScore(textField.getText(), score);
+                popup.hide();
+                pinball.getBall().setMassType(MassType.NORMAL);
+                pinball.resetLivesAndScore();
+                writer.printScores();
+            }
+        });
     }
 
     public javafx.scene.text.Font getFontFX(double size) {
