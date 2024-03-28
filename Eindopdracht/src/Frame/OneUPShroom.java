@@ -9,6 +9,7 @@ import org.dyn4j.geometry.Vector2;
 
 public class OneUPShroom extends FramePart {
     private Body shroom;
+
     public OneUPShroom(World world) {
         super(world);
         createShroom();
