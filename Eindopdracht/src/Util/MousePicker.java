@@ -92,7 +92,7 @@ public class MousePicker {
                         results);
                 //aangepast om ball niet mee te laten draggen
 
-                if (detect && results.get(0).getBody().getGravityScale() != -100000) {
+                if (detect) { // && results.get(0).getBody().getGravityScale() != -100000
                     Body target = results.get(0).getBody();
 
                     target.setAutoSleepingEnabled(false);

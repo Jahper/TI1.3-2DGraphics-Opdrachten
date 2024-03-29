@@ -199,7 +199,6 @@ public class Pinball extends Application {
         }
         if (lives < 1) {
             gameOver();
-            highScoreWriter.printScores();
         }
     }
 

@@ -72,7 +72,6 @@ public class HighScorePopUp {
                 popup.hide();
                 pinball.getBall().setMassType(MassType.NORMAL);
                 pinball.resetLivesAndScore();
-                writer.printScores();
             }
         });
 
@@ -83,7 +82,6 @@ public class HighScorePopUp {
                 popup.hide();
                 pinball.getBall().setMassType(MassType.NORMAL);
                 pinball.resetLivesAndScore();
-                writer.printScores();
             }
         });
     }

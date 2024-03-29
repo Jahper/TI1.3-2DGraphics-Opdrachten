@@ -65,6 +65,7 @@ public class HighScoreWriter {
             e.printStackTrace();
         }
     }
+
     //methode voor evenredige spacing op highscore lijst
     private String correctedName(String name) {
         if (name.length() == 4) {
@@ -77,31 +78,6 @@ public class HighScoreWriter {
             name += " ";
         }
         return name;
-    }
-
-    public void printScores() {
-        for (HighScore highScore : highScores) {
-            System.out.println(highScore);
-        }
-    }
-
-
-    public static void main(String[] args) {//fixme weghalen
-        HighScoreWriter f = new HighScoreWriter();
-//        f.addHighScore("bob", 11);
-//        f.addHighScore("bob", 9);
-//        f.addHighScore("bob", 11);
-//        f.addHighScore("bob", 23);
-//        f.addHighScore("bob", 411);
-//        f.addHighScore("bob", 100);
-        f.addHighScore("-", 0);
-        f.addHighScore("-", 0);
-        f.addHighScore("-", 0);
-        f.addHighScore("-", 0);
-        f.addHighScore("-", 0);
-        for (HighScore highScore : f.getHighScores()) {
-            System.out.println(highScore.toString());
-        }
     }
 
     public class HighScoreComparator implements Comparator<HighScore> {

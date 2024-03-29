@@ -10,6 +10,7 @@ import org.dyn4j.geometry.Vector2;
 
 public class Launcher extends FramePart {
     private PrismaticJoint joint;
+    private Body launchPad;
 
     public Launcher(World world) {
         super(world);
@@ -19,7 +20,7 @@ public class Launcher extends FramePart {
     private void createLauncher() {
         //bottom part
         Body bottom = createBodyAndGameObject(4, 4, new Vector2(45, 49), "FrameImages/bottomBrick.png", new Vector2(30, -20), 0.01145);
-        Body launchPad = new Body();
+        launchPad = new Body();
         BodyFixture launchPadFix = new BodyFixture(Geometry.createRectangle(4, 4));
         launchPadFix.setDensity(1000);
         launchPadFix.setFriction(10000);
@@ -46,5 +47,9 @@ public class Launcher extends FramePart {
             joint.setMotorEnabled(true);
             joint.setMotorSpeed(-100000);
         }
+    }
+
+    public Body getLaunchPad() {
+        return launchPad;
     }
 }
