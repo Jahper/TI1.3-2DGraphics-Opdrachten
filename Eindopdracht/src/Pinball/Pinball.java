@@ -122,7 +122,7 @@ public class Pinball extends Application {
         if (gameOver) {
             return;
         }
-        mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 1);
+        mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 1, this.launcher);
         launcher.update(deltaTime);
         ball.update(deltaTime);
 

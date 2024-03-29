@@ -1,5 +1,6 @@
 package Util;
 
+import Frame.Launcher;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -59,7 +60,7 @@ public class MousePicker {
 
     }
 
-    public void update(World world, AffineTransform transform, double scale) {
+    public void update(World world, AffineTransform transform, double scale, Launcher launcher) {
         if (mousePos == null) {
             if (body != null) {
                 world.removeBody(body);
@@ -72,7 +73,11 @@ public class MousePicker {
 
         try {
             Point2D localMouse = transform.inverseTransform(mousePos, null);
-            localMouse = new Point2D.Double(localMouse.getX() / scale, localMouse.getY() / scale);
+            localMouse = new Point2D.Double(44.5, localMouse.getY() / scale);
+
+            if (localMouse.getY() < 20 || localMouse.getY() < launcher.getLaunchPad().getTransform().getTranslationY()) {
+                localMouse = new Point2D.Double(44.5, launcher.getLaunchPad().getTransform().getTranslationY());
+            }
 
             if (body == null && joint == null) {
                 Convex convex = Geometry.createCircle(0.1);
@@ -92,7 +97,7 @@ public class MousePicker {
                         results);
                 //aangepast om ball niet mee te laten draggen
 
-                if (detect) { // && results.get(0).getBody().getGravityScale() != -100000
+                if (detect && results.get(0).getBody().getGravityScale() == 0) {
                     Body target = results.get(0).getBody();
 
                     target.setAutoSleepingEnabled(false);
@@ -119,5 +124,4 @@ public class MousePicker {
             e.printStackTrace();
         }
     }
-
 }

@@ -18,7 +18,6 @@ public class Ball extends FramePart {
     private void createBall() {
         this.ball = new Body();
         BodyFixture ballFixture = new BodyFixture(Geometry.createCircle(0.9));
-//        ballFixture.setFriction(0.3);
         ballFixture.setRestitution(0);
         ballFixture.setDensity(0.001);
         ball.addFixture(ballFixture);
