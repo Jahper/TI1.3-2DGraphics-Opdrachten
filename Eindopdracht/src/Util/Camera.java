@@ -28,7 +28,9 @@ public class Camera {
 		this.resizable = resizable;
 		this.g2d = g2d;
 
-		canvas.setOnMousePressed(e -> {lastMousePos = new Point2D.Double(e.getX(), e.getY());});
+		//camera disabled, wordt alleen gebruikt voor testen
+
+//		canvas.setOnMousePressed(e -> {lastMousePos = new Point2D.Double(e.getX(), e.getY());});
 //		canvas.setOnMouseDragged(e -> mouseDragged(e));
 //		canvas.setOnScroll(e-> mouseScroll(e));
 	}

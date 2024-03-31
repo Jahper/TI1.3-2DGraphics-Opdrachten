@@ -23,7 +23,6 @@ public class HighScorePopUp {
     private int score = 0;
 
     public HighScorePopUp(Pinball pinball) {
-        //todo mooi in het midden zetten
         this.pinball = pinball;
         this.popup = new Popup();
 
